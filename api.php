@@ -202,6 +202,18 @@ if ($_POST['function'] == "add_page") {
     exit(0);
 }
 
+if ($_POST['function']=="draw_main_page"){
+    $result=$conn->query("SELECT pid, title, index_name, description, latestsubmit FROM pages ORDER BY PID DESC LIMIT 10");
+    $count=$result->num_rows;
+    $pages=[];
+    while ($row=$result->fetch_assoc()){
+        array_push($pages,$row);
+    }
+    $data=['count'=>$count,'pages'=>$pages];
+    Response::json(200, "API successfully called", $data);
+    exit(0);
+}
+
 function check_login($conn): bool
 {
     if (@!$_COOKIE['TokenID'] && !@$_COOKIE['Token']) {

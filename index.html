@@ -83,37 +83,7 @@
 
     <div class="mdui-container">
         <div class="mdui-row">
-            <div class="mdui-col-md-6 mdui-col-offset-md-3">
-                <div class="mdui-card" style="margin-top: 30px">
-                    <div class="mdui-card-media">
-                        <img src="https://cdn.w3cbus.com/mdui.org/docs/assets/docs/img/card.jpg"/>
-                        <div class="mdui-card-media-covered">
-                            <div class="mdui-card-primary">
-                                <div class="mdui-card-primary-title">Title</div>
-                                <div class="mdui-card-primary-subtitle">Subtitle</div>
-                            </div>
-                            <div class="mdui-card-actions">
-                                <button class="mdui-btn mdui-ripple mdui-ripple-white">action 1</button>
-                                <button class="mdui-btn mdui-ripple mdui-ripple-white">action 2</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mdui-card" style="margin-top: 30px">
-                    <div class="mdui-card-media">
-                        <img src="https://cdn.w3cbus.com/mdui.org/docs/assets/docs/img/card.jpg"/>
-                        <div class="mdui-card-media-covered">
-                            <div class="mdui-card-primary">
-                                <div class="mdui-card-primary-title">Title</div>
-                                <div class="mdui-card-primary-subtitle">Subtitle</div>
-                            </div>
-                            <div class="mdui-card-actions">
-                                <button class="mdui-btn mdui-ripple mdui-ripple-white">action 1</button>
-                                <button class="mdui-btn mdui-ripple mdui-ripple-white">action 2</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="mdui-col-md-6 mdui-col-offset-md-3" id="card_content">
 
             </div>
         </div>
@@ -456,6 +426,48 @@
         }
     });
 
+    $.ajax({
+        url:"api.php",
+        type:"post",
+        dataType:"json",
+        data:{
+            'function':'draw_main_page',
+        },
+        success:function (result){
+            for (i=0;i<result.data.count;i++){
+                add_card($(
+                    "#card_content"),
+                    "https://cdn.w3cbus.com/mdui.org/docs/assets/docs/img/card.jpg",
+                    result.data.pages[i].title,
+                    result.data.pages[i].description,
+                    result.data.pages[i].latestsubmit,
+                    result.data.pages[i].index_name,
+                    result.data.pages[i].pid)
+            }
+            $('#drawing_progress').hide()
+        },
+        error:function (){
+            $('#drawing_progress').hide()
+        }
+    })
 
+    function add_card(father,img,title,description,time,index,PID){
+        father.append('<div class="mdui-card" style="margin-top: 30px">\n' +
+            '                    <div class="mdui-card-media">\n' +
+            '                        <img src="'+img+'" alt=""/>\n' +
+            '                        <div class="mdui-card-media-covered">\n' +
+            '                            <div class="mdui-card-primary">\n' +
+            '                                <div class="mdui-card-primary-title">'+title+'</div>\n' +
+            '                                <div class="mdui-card-primary-subtitle">'+description+'</div>\n' +
+            '                                <div class="mdui-card-primary-subtitle">'+time+'</div>\n' +
+            '                            </div>\n' +
+            '                            <div class="mdui-card-actions" style="text-align: right">\n' +
+            '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page_index.html?index='+index+'\'">访问目录</button>\n' +
+            '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page.html?PID='+PID+'\'">阅读全文</button>\n' +
+            '                            </div>\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>');
+    }
 </script>
 </html>
