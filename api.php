@@ -52,13 +52,13 @@ if ($_POST['function'] == "login") {
     $stmt->bind_result($password);
     if ($stmt->num_rows() != 1) {
         $arr = ["isSucceed" => false];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "Login Message Wrong", $arr);
         exit(0);
     }
     $stmt->fetch();
     if (md5("#*#*4636" . md5($_POST['password']) . "114514*#*#") != $password) {
         $arr = ["isSucceed" => false];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "Login Message Wrong", $arr);
         exit(0);
     }
     $TokenID = md5(md5($_POST['username']) . microtime(true));
@@ -86,7 +86,7 @@ if ($_POST['function'] == 'login_check') {
         exit(0);
     } else {
         $arr = ["isSucceed" => "false"];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "User Not Login", $arr);
         exit(0);
     }
 }
@@ -94,13 +94,13 @@ if ($_POST['function'] == 'login_check') {
 if ($_POST['function'] == "add_link") {
     if (!check_login($conn)) {
         $arr = ["isSucceed" => "false", "error_message" => "您未登录"];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "User Not Login", $arr);
         exit(0);
     }
     $result = $conn->query("SELECT ID FROM links WHERE LinkTitle='" . $_POST['link_title'] . "'");
     if ($result->num_rows != 0) {
         $arr = ["isSucceed" => "false", "error_message" => "当前标题链接已存在"];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(503, "Asset Is Existed", $arr);
         exit(0);
     }
     $conn->query("INSERT INTO links (LinkTitle,Link)VALUES('" . $_POST['link_title'] . "','" . $_POST['link'] . "')");
@@ -113,7 +113,7 @@ if ($_POST['function'] == "add_link") {
 if ($_POST['function'] == "update_link") {
     if (!check_login($conn)) {
         $arr = ["isSucceed" => 'false'];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "User Not Login", $arr);
         exit(0);
     }
     $conn->query("UPDATE links SET LinkTitle='" . $_POST['link_title'] . "' , Link='" . $_POST['link'] . "' WHERE LinkTitle='" . $_POST['link_title_old'] . "'");
@@ -125,7 +125,7 @@ if ($_POST['function'] == "update_link") {
 if ($_POST['function'] == "delete_link") {
     if (!check_login($conn)) {
         $arr = ["isSucceed" => 'false'];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "User Not Login", $arr);
         exit(0);
     }
     $conn->query("DELETE FROM links WHERE LinkTitle='" . $_POST['link_title'] . "'");
@@ -137,13 +137,13 @@ if ($_POST['function'] == "delete_link") {
 if ($_POST['function'] == "add_index") {
     if (!check_login($conn)) {
         $arr = ["isSucceed" => "false", "error_message" => "您未登录"];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "User Not Login", $arr);
         exit(0);
     }
     $result = $conn->query("SELECT iid FROM indexes WHERE index_name='" . $_POST['index_name'] . "'");
     if ($result->num_rows != 0) {
         $arr = ["isSucceed" => "false", "error_message" => "当前标题链接已存在"];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(503, "Assets Is Existed", $arr);
         exit(0);
     }
     $conn->query("INSERT INTO indexes (index_name)VALUES('" . $_POST['index_name'] . "')");
@@ -156,7 +156,7 @@ if ($_POST['function'] == "add_index") {
 if ($_POST['function'] == "update_index") {
     if (!check_login($conn)) {
         $arr = ["isSucceed" => 'false'];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "User Not Login", $arr);
         exit(0);
     }
     $conn->query("UPDATE indexes SET index_name='" . $_POST['index_title'] . "' WHERE index_name='" . $_POST['index_title_old'] . "'");
@@ -168,7 +168,7 @@ if ($_POST['function'] == "update_index") {
 if ($_POST['function'] == "delete_index") {
     if (!check_login($conn)) {
         $arr = ["isSucceed" => 'false'];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "User Not Login", $arr);
         exit(0);
     }
     $conn->query("DELETE FROM indexes WHERE index_name='" . $_POST['index_name'] . "'");
@@ -180,7 +180,7 @@ if ($_POST['function'] == "delete_index") {
 if ($_POST['function'] == "add_page") {
     if (!check_login($conn)) {
         $arr = ["isSucceed" => "false", "error_message" => "您未登录"];
-        Response::json(200, "API successfully called", $arr);
+        Response::json(401, "User Not Login", $arr);
         exit(0);
     }
     $conn->query("INSERT INTO pages (title, index_name, description, content)
@@ -214,6 +214,17 @@ if ($_POST['function']=="draw_main_page"){
     exit(0);
 }
 
+if ($_POST['function']=="draw_page"){
+    $result=$conn->query("SELECT pid, title, content ,index_name, description, latestsubmit FROM pages WHERE PID=".$_POST['PID']);
+    if ($result->num_rows!=1){
+        $data=['isSucceed'=>'false'];
+        Response::json(404, "Page Not Found", $data);
+        exit(0);
+    }
+    $row=$result->fetch_assoc();
+    Response::json(200, "API successfully called", $row);
+    exit(0);
+}
 function check_login($conn): bool
 {
     if (@!$_COOKIE['TokenID'] && !@$_COOKIE['Token']) {

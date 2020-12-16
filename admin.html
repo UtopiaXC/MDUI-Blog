@@ -16,7 +16,7 @@
     <div class="mdui-toolbar mdui-color-theme">
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
               mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
-        <a href="#" class="mdui-typo-headline mdui-hidden-xs">Decisive 's Blog</a>
+        <a href="/" class="mdui-typo-headline mdui-hidden-xs">Decisive 's Blog</a>
         <div class="mdui-toolbar-spacer"></div>
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-theme'}"
               mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
@@ -84,7 +84,7 @@
     <div class="mdui-row">
         <div class="mdui-col-md-6 mdui-col-offset-md-3">
             <h2 class="doc-title mdui-text-color-theme">文章管理</h2>
-            <div class="mdui-panel" mdui-panel>
+            <div class="mdui-panel" mdui-panel id="pages">
                 <div class="mdui-panel-item">
                     <div class="mdui-panel-item-header">
                         <div class="mdui-panel-item-title">添加新文章</div>
@@ -94,7 +94,8 @@
                     <div class="mdui-panel-item-body">
                         <div class="mdui-panel-item-actions">
                             <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>
-                            <button class="mdui-btn mdui-ripple" onclick="window.location.href='add_page.html'">添加</button>
+                            <button class="mdui-btn mdui-ripple" onclick="window.location.href='add_page.html'">添加
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -122,7 +123,8 @@
                         <div class="mdui-panel-item-actions">
                             <button id="button_cancel_add_index" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
                             </button>
-                            <button id="button_add_index" onclick="add_index();" class="mdui-btn mdui-ripple">添加</button>
+                            <button id="button_add_index" onclick="add_index();" class="mdui-btn mdui-ripple">添加
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -158,8 +160,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
@@ -175,6 +175,7 @@
 <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
 <script src="js/contents.js"></script>
 <script>
+    let draw_control = 0;
     $.ajax({
         url: "api.php",
         type: "post",
@@ -219,8 +220,8 @@
             for (i = 0; i < result.data.count_links; i++) {
                 links.$data.links += '<a target="_blank" href="' + result.data.links[i].Link + '" class="mdui-list-item mdui-ripple ">' + result.data.links[i].LinkTitle + '</a>';
             }
-            for (i=0;i<result.data.count_indexes;i++){
-                indexes.$data.indexes += '<a href="page_index.html?index='+result.data.indexes[i].IndexName+'" class="mdui-list-item mdui-ripple ">' + result.data.indexes[i].IndexName + '</a>';
+            for (i = 0; i < result.data.count_indexes; i++) {
+                indexes.$data.indexes += '<a href="page_index.html?index=' + result.data.indexes[i].IndexName + '" class="mdui-list-item mdui-ripple ">' + result.data.indexes[i].IndexName + '</a>';
             }
 
             let admin_links = document.getElementById("admin_links");
@@ -228,7 +229,7 @@
             for (i = 0; i < result.data.count_links; i++) {
                 links_count.text(i + 1)
                 admin_links.innerHTML +=
-                    '<div id="link_item'+i+'" class="mdui-panel-item">' +
+                    '<div id="link_item' + i + '" class="mdui-panel-item">' +
                     '                    <div class="mdui-panel-item-header">' +
                     '                        <div id="link_title_old' + i + '" class="mdui-panel-item-title">' + result.data.links[i].LinkTitle + '</div>' +
                     '                        <div id="link_old' + i + '" class="mdui-panel-item-summary">' + result.data.links[i].Link + '</div>' +
@@ -252,12 +253,12 @@
                     '                </div>';
             }
 
-            let admin_indexes=document.getElementById("admin_indexes");
+            let admin_indexes = document.getElementById("admin_indexes");
             let indexes_count = $("#indexes_count")
             for (i = 0; i < result.data.count_indexes; i++) {
                 indexes_count.text(i + 1)
                 admin_indexes.innerHTML +=
-                    '<div id="index_item'+i+'" class="mdui-panel-item">' +
+                    '<div id="index_item' + i + '" class="mdui-panel-item">' +
                     '                    <div class="mdui-panel-item-header">' +
                     '                        <div id="index_title_old' + i + '" class="mdui-panel-item-title">' + result.data.indexes[i].IndexName + '</div>' +
                     '                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>' +
@@ -275,15 +276,46 @@
                     '                        </div>' +
                     '                    </div>' +
                     '                </div>';
+                draw_control++;
+                if (draw_control === 2)
+                    $('#drawing_progress').hide()
             }
         },
         error: function () {
+            draw_control++;
+            if (draw_control === 2)
+                $('#drawing_progress').hide()
             console.log("Standard API Called Faultily");
         }
     });
+    $.ajax({
+        url: "api.php",
+        type: "post",
+        dataType: "json",
+        data: {
+            'function': 'draw_admin_pages',
+        },
+        success: function (result) {
 
+        },
+        error: function () {
 
+        }
+    })
 
+    /*<div class="mdui-panel-item">
+                        <div class="mdui-panel-item-header">
+                            <div class="mdui-panel-item-title">添加新文章</div>
+                            <div class="mdui-panel-item-summary"></div>
+                            <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                        </div>
+                        <div class="mdui-panel-item-body">
+                            <div class="mdui-panel-item-actions">
+                                <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>
+                                <button class="mdui-btn mdui-ripple" onclick="window.location.href='add_page.html'">添加</button>
+                            </div>
+                        </div>
+                    </div>*/
 
     function update_link(i) {
         let link_title_old = $("#link_title_old" + i)
@@ -323,7 +355,7 @@
     function add_link() {
         let link_title = $("#add_link_title")
         let link = $("#add_link")
-        if (link_title.val()===''||link.val()===''){
+        if (link_title.val() === '' || link.val() === '') {
             mdui.alert("请输入内容", "警告")
             return
         }
@@ -342,12 +374,12 @@
                 if (result.data.isSucceed === 'true') {
                     mdui.alert("添加成功", "提醒")
                     let admin_links = document.getElementById("admin_links");
-                    let i= $("#links_count").text()
+                    let i = $("#links_count").text()
                     admin_links.innerHTML +=
-                        '<div id="link_item'+i+'" class="mdui-panel-item">' +
+                        '<div id="link_item' + i + '" class="mdui-panel-item">' +
                         '                    <div class="mdui-panel-item-header">' +
                         '                        <div id="link_title_old' + i + '" class="mdui-panel-item-title">' + link_title.val() + '</div>' +
-                        '                        <div id="link_old' + i + '" class="mdui-panel-item-summary">' + link.val()+ '</div>' +
+                        '                        <div id="link_old' + i + '" class="mdui-panel-item-summary">' + link.val() + '</div>' +
                         '                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>' +
                         '                    </div>' +
                         '                    <div class="mdui-panel-item-body">' +
@@ -378,29 +410,28 @@
         })
     }
 
-    function delete_link(i){
+    function delete_link(i) {
         let link_title = $("#link_title_old" + i)
-        mdui.confirm('是否确认删除？', '提醒', function(){
+        mdui.confirm('是否确认删除？', '提醒', function () {
             $.ajax({
-                url:"api.php",
-                type:"post",
-                dataType:"json",
-                data:{
-                    'function':'delete_link',
-                    'link_title':link_title.text()
+                url: "api.php",
+                type: "post",
+                dataType: "json",
+                data: {
+                    'function': 'delete_link',
+                    'link_title': link_title.text()
                 },
-                success:function (result){
-                    if (result.data.isSucceed==='true'){
-                        var obj = document.getElementById("link_item"+i);
+                success: function (result) {
+                    if (result.data.isSucceed === 'true') {
+                        var obj = document.getElementById("link_item" + i);
                         obj.innerHTML = "";
                         var parentObj = obj.parentNode;
                         parentObj.removeChild(obj);
-                    }
-                    else{
+                    } else {
                         mdui.alert("您未登录", "警告")
                     }
                 },
-                error:function (){
+                error: function () {
                     mdui.alert("未知错误", "提醒")
                 }
             })
@@ -441,7 +472,7 @@
 
     function add_index() {
         let index_name = $("#add_index")
-        if (index_name.val()===''){
+        if (index_name.val() === '') {
             mdui.alert("请输入内容", "警告")
             return
         }
@@ -459,9 +490,9 @@
                 if (result.data.isSucceed === 'true') {
                     mdui.alert("添加成功", "提醒")
                     let admin_index = document.getElementById("admin_indexes");
-                    let i= $("#index_count").text()
+                    let i = $("#index_count").text()
                     admin_index.innerHTML +=
-                        '<div id="index_item'+i+'" class="mdui-panel-item">' +
+                        '<div id="index_item' + i + '" class="mdui-panel-item">' +
                         '                    <div class="mdui-panel-item-header">' +
                         '                        <div id="index_title_old' + i + '" class="mdui-panel-item-title">' + index_name.val() + '</div>' +
                         '                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>' +
@@ -489,37 +520,36 @@
         })
     }
 
-    function delete_index(i){
+    function delete_index(i) {
         let index_name = $("#index_title_old" + i)
-        mdui.confirm('是否确认删除？', '提醒', function(){
+        mdui.confirm('是否确认删除？', '提醒', function () {
             $.ajax({
-                url:"api.php",
-                type:"post",
-                dataType:"json",
-                data:{
-                    'function':'delete_index',
-                    'index_name':index_name.text()
+                url: "api.php",
+                type: "post",
+                dataType: "json",
+                data: {
+                    'function': 'delete_index',
+                    'index_name': index_name.text()
                 },
-                success:function (result){
-                    if (result.data.isSucceed==='true'){
-                        var obj = document.getElementById("index_item"+i);
+                success: function (result) {
+                    if (result.data.isSucceed === 'true') {
+                        var obj = document.getElementById("index_item" + i);
                         obj.innerHTML = "";
                         var parentObj = obj.parentNode;
                         parentObj.removeChild(obj);
-                    }
-                    else{
+                    } else {
                         mdui.alert("您未登录", "警告")
                     }
                 },
-                error:function (){
+                error: function () {
                     mdui.alert("未知错误", "提醒")
                 }
             })
         });
     }
 
-    function logout(){
-        mdui.confirm('是否确定退出？', '提醒', function() {
+    function logout() {
+        mdui.confirm('是否确定退出？', '提醒', function () {
             $.ajax({
                 type: "POST",
                 url: "api.php",
@@ -527,10 +557,10 @@
                 data: {
                     "function": "logout"
                 },
-                success:function (){
+                success: function () {
                     document.cookie = "TokenID" + "=" + "" + "; " + "-1";
                     document.cookie = "Token" + "=" + "" + "; " + "-1";
-                    window.location="/";
+                    window.location = "/";
                 }
             });
         });
