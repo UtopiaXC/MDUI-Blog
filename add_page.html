@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Decisive's Blog - 后台管理</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/vs.min.css"/>
+    <link rel="stylesheet" href="https://cdn.w3cbus.com/mdui.org/docs/assets/docs/css/highlight-vs2015-style.css"/>
+    <link rel="stylesheet" href="https://cdn.w3cbus.com/mdui.org/docs/assets/docs/css/docs-v17.css"/>
+    <style>
+        .w-e-menu {
+            z-index: 2 !important;
+        }
+        .w-e-text-container {
+            z-index: 1 !important;
+        }
+
+        .w-e-toolbar{
+            z-index: 3 !important;
+        }
+    </style>
+</head>
+
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-theme-layout-auto">
+
+<header class="mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme">
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
+              mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
+        <a href="#" class="mdui-typo-headline mdui-hidden-xs">Decisive 's Blog</a>
+        <div class="mdui-toolbar-spacer"></div>
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-theme'}"
+              mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="logout();"
+              mdui-tooltip="{content: '注销登录'}"><i class="mdui-icon material-icons">account_circle</i></span>
+    </div>
+</header>
+
+<div class="mdui-drawer" id="main-drawer" open.mdui.collapse>
+    <div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
+        <div class="mdui-collapse-item">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">near_me</i>
+                <div class="mdui-list-item-content">博客</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list">
+                <a href="/" class="mdui-list-item mdui-ripple ">主页</a>
+                <a href="" class="mdui-list-item mdui-ripple ">归档</a>
+                <a href="" class="mdui-list-item mdui-ripple ">标签</a>
+            </div>
+        </div>
+        <div class="mdui-collapse-item ">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">widgets</i>
+                <div class="mdui-list-item-content">目录</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list" id="indexes" v-html="indexes">
+                {{ indexes }}
+            </div>
+        </div>
+        <div class="mdui-collapse-item ">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-brown">view_carousel</i>
+                <div class="mdui-list-item-content">友链</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list" id="links" v-html="links">
+                {{ links }}
+            </div>
+        </div>
+        <div class="mdui-collapse-item ">
+            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">local_mall</i>
+                <div class="mdui-list-item-content">关于</div>
+                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+            </div>
+            <div class="mdui-collapse-item-body mdui-list">
+                <a href="" class="mdui-list-item mdui-ripple ">关于本站</a>
+                <a href="" class="mdui-list-item mdui-ripple ">关于我</a>
+            </div>
+        </div>
+    </div>
+</div>
+<a id="anchor-top"></a>
+
+<div id="drawing_progress" class="mdui-progress">
+    <div class="mdui-progress-indeterminate"></div>
+</div>
+<div class="mdui-container doc-container">
+    <h1 class="doc-title mdui-text-color-theme">添加文章</h1>
+    <div class="mdui-divider"></div>
+    <div class="mdui-row" style="margin-top: 30px">
+        <div class="mdui-col-md-6" style="margin-top: 30px">
+            <div class="mdui-textfield">
+                <label>
+                    <input id="title" class="mdui-textfield-input" type="text" placeholder="文章标题"/>
+                </label>
+            </div>
+        </div>
+        <div class="mdui-col-md-6" style="margin-top: 30px">
+            <div class="mdui-textfield" id="tags_list">
+                <label>
+                    <input id="tags" class="mdui-textfield-input" type="text" placeholder="标签（回车添加）"/>
+                </label>
+            </div>
+        </div>
+        <div class="mdui-col-md-12" style="margin-top: 30px">
+            <div class="mdui-textfield">
+                <label>
+                    <textarea id="description" class="mdui-textfield-input" placeholder="文章摘要"></textarea>
+                </label>
+            </div>
+        </div>
+        <div class="mdui-col-md-6" style="margin-top: 30px">
+            <label for="index_option">选择目录：</label>
+            <select id="index_option" class="mdui-select">
+                <option value="无">无</option>
+            </select>
+        </div>
+        <div class="mdui-col-xs-12" style="margin-top: 30px">
+            <div id="editor"></div>
+        </div>
+    </div>
+    <div class="mdui-row-xs-1" style="margin-top: 30px">
+        <div class="mdui-col">
+            <button class="mdui-btn mdui-btn-block mdui-ripple" onclick="submit_page();">提交</button>
+        </div>
+    </div>
+</div>
+
+</body>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.polyfills.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/holderjs@2.9.7/holder.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/wangeditor@4.5.3/dist/wangEditor.min.js"></script>
+<script src="js/contents.js"></script>
+
+<script>
+    const editor = new window.wangEditor('#editor')
+    editor.config.height = 500
+
+    editor.create()
+    let tags = [];
+    $.ajax({
+        url: "api.php",
+        type: "post",
+        dataType: "json",
+        async: false,
+        data: {
+            'function': 'login_check',
+        },
+        success: function (result) {
+            if (result.data.isSucceed === 'false') {
+                window.location.href = "admin_login.html";
+            }
+
+        },
+        error: function () {
+            console.log("API Called Faultily")
+        }
+    })
+
+    const links = new Vue({
+        el: '#links',
+        data: {
+            links: ''
+        }
+    });
+
+    const indexes = new Vue({
+        el: '#indexes',
+        data: {
+            indexes: ''
+        }
+    });
+
+
+    $.ajax({
+        url: "api.php",
+        type: "post",
+        dataType: "json",
+        data: {
+            'function': 'draw_slider',
+        },
+        success: function (result) {
+            for (i = 0; i < result.data.count_links; i++) {
+                links.$data.links += '<a target="_blank" href="' + result.data.links[i].Link + '" class="mdui-list-item mdui-ripple ">' + result.data.links[i].LinkTitle + '</a>';
+            }
+            for (i = 0; i < result.data.count_indexes; i++) {
+                indexes.$data.indexes += '<a href="page_index.html?index=' + result.data.indexes[i].IndexName + '" class="mdui-list-item mdui-ripple ">' + result.data.indexes[i].IndexName + '</a>';
+                let index_option = new mdui.Select('#index_option');
+                $("#index_option").append('<option value="' + result.data.indexes[i].IndexName + '">' + result.data.indexes[i].IndexName + '</option>');
+                index_option.handleUpdate()
+            }
+            $("#drawing_progress").hide()
+        },
+        error: function () {
+            console.log("API Called Faultily");
+        }
+    });
+
+
+
+    function logout() {
+        mdui.confirm('是否确定退出？', '提醒', function () {
+            $.ajax({
+                type: "POST",
+                url: "api.php",
+                dataType: "json",
+                data: {
+                    "function": "logout"
+                },
+                success: function () {
+                    document.cookie = "TokenID" + "=" + "" + "; " + "-1";
+                    document.cookie = "Token" + "=" + "" + "; " + "-1";
+                    window.location = "/";
+                }
+            });
+        });
+    }
+
+    function submit_page() {
+        let form = JSON.stringify(editor.txt.getJSON());
+        let title=$("#title").val()
+        let description=$('#description').val()
+        let index=$('#index_option').find("option:selected").val()
+        if (title===""||description===""){
+            mdui.alert("标题与描述为必填项目")
+            return
+        }
+        $.ajax({
+            url:"api.php",
+            type:"post",
+            dataType:"json",
+            data:{
+                'function':'add_page',
+                'content':form,
+                'title':title,
+                'description':description,
+                'index_name':index,
+                'tags':tags.toString()
+            },
+            success:function (result){
+                if (result.data.isSucceed==='false'){
+                    mdui.alert(result.data.error_message,"警告")
+                }
+                else if(result.data.isSucceed==='true'){
+                    window.location.href="page.html?PID="+result.data.PID
+                }
+                else
+                    mdui.alert("未知错误","提醒")
+            },
+            error:function () {
+                mdui.alert("未知错误","提醒")
+            }
+        })
+    }
+
+    function add_index() {
+        mdui.alert("添加")
+    }
+
+    $("#tags").keypress(function (e) {
+        if (e.which === 13) {
+            var tag = $("#tags")
+            if (tag.val() === "")
+                return
+            if (tags.includes(tag.val()))
+                return;
+            tags.push(tag.val())
+            $("#tags_list").append('<label id="' + tag.val() + '" class="mdui-checkbox">' +
+                '                       <input type="checkbox" onchange="remove_tag(\''+tag.val()+'\');" checked/>' +
+                '                       <i class="mdui-checkbox-icon"></i>' + tag.val() +
+                '                    </label>\n')
+            tag.val("")
+        }
+    })
+
+    function remove_tag(tag) {
+        for (var i = 0; i < tags.length; i++) {
+            if (tags[i] === tag) {
+                tags.splice(i, 1);
+            }
+        }
+        var obj = document.getElementById(tag);
+        obj.innerHTML = "";
+        var parentObj = obj.parentNode;
+        parentObj.removeChild(obj);
+    }
+</script>
+
+
+</html>
