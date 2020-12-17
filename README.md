@@ -44,6 +44,10 @@
 三、关于界面  
 关于界面我没写，想写的自己写一下
 
+四、初始账户和密码  
+登录名：admin
+密码：admin
+
 ## Demo  
 朋友已经部署好的网站：[https://decisive.icu/](https://decisive.icu/)  
 

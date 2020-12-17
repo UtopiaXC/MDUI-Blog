@@ -11,7 +11,7 @@
  Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 17/12/2020 13:34:11
+ Date: 17/12/2020 16:45:27
 */
 
 SET NAMES utf8mb4;
@@ -73,7 +73,7 @@ CREATE TABLE `pictures`  (
   `PicTitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `PicLink` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`PID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pictures
@@ -123,7 +123,6 @@ CREATE TABLE `tags`  (
 -- ----------------------------
 -- Records of tags
 -- ----------------------------
-
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
@@ -140,7 +139,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', 'e47af108b04c61795c5e522f381066e8', 'a1b319f4344dd45babf8b5c85889008d', '27157329d53bf0e32d67c465fbe56ddc');
+INSERT INTO `user` VALUES (1, 'admin', 'e47af108b04c61795c5e522f381066e8', NULL, NULL);
 
 -- ----------------------------
 -- Triggers structure for table pages
