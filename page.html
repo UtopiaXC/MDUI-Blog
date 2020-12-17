@@ -90,6 +90,17 @@
             </div>
         </div>
     </div>
+
+    <div class="mdui-divider"></div>
+    <p style="text-align: right" id="tags">标签：</p>
+    <p style="text-align: right" id="time">编辑时间：</p>
+    <div class="mdui-divider"></div>
+    <h2 style="font-weight: lighter">版权声明及许可</h2>
+    <br />本站作品均采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">知识共享署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a>进行许可。
+    <p>转载作品将在文章头部进行说明并提供署名与许可信息。</p>
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">
+        <img alt="知识共享许可协议" style="border-width:0" src="https://s3.ax1x.com/2020/11/21/D3uwY8.png" />
+    </a>
 </div>
 <div id="editor" style="display: none"></div>
 <div class="mdui-dialog" id="dialog-theme">
@@ -445,6 +456,10 @@
             editor.txt.setJSON(JSON.parse(result.data.content))
             $('#content').append(editor.txt.html());
             $('#drawing_progress').hide()
+            for (i=0;i<result.data.tags_count;i++){
+                $('#tags').append('<a style="text-decoration: none" href="tag.html?tag='+result.data.tags[i].Tag+'">#'+result.data.tags[i].Tag+'</a>')
+            }
+            $('#time').append(result.data.latestsubmit)
         },
         error:function (){
             $('#drawing_progress').hide()

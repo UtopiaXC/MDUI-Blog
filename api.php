@@ -179,8 +179,14 @@ if ($_POST['function'] == "update_index") {
 
 if ($_POST['function'] == "delete_index") {
     if (!check_login($conn)) {
-        $arr = ["isSucceed" => 'false'];
+        $arr = ["isSucceed" => 'false','error'=>"用户未登录"];
         Response::json(401, "User Not Login", $arr);
+        exit(0);
+    }
+    $result=$conn->query("SELECT PID FROM pages WHERE index_name='" . $_POST['index_name'] . "'");
+    if ($result->num_rows!=0){
+        $arr = ["isSucceed" => 'false','error'=>"当前目录不为空，请先删除目录下文章"];
+        Response::json(502, "Illegal operation", $arr);
         exit(0);
     }
     $conn->query("DELETE FROM indexes WHERE index_name='" . $_POST['index_name'] . "'");
