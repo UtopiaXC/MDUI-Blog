@@ -68,7 +68,7 @@ $(function () {
                 }
             }
             $body.addClass('mdui-theme-primary-' + theme.primary);
-            setCookie('docs-theme-primary', theme.primary);
+            setCookie('primary', theme.primary);
             $('input[name="doc-theme-primary"][value="' + theme.primary + '"]').prop('checked', true);
         }
 
@@ -80,7 +80,7 @@ $(function () {
                 }
             }
             $body.addClass('mdui-theme-accent-' + theme.accent);
-            setCookie('docs-theme-accent', theme.accent);
+            setCookie('accent', theme.accent);
             $('input[name="doc-theme-accent"][value="' + theme.accent + '"]').prop('checked', true);
         }
 
@@ -92,7 +92,7 @@ $(function () {
                 }
             }
             $body.addClass('mdui-theme-layout-' + theme.layout);
-            setCookie('docs-theme-layout', theme.layout);
+            setCookie('layout', theme.layout);
             $('input[name="doc-theme-layout"][value="' + theme.layout + '"]').prop('checked', true);
         }
     };
@@ -149,7 +149,8 @@ $(function () {
     $.getUrlParam = function (name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
-        if (r != null) return decodeURI(r[2]); return null;
+        if (r != null) return decodeURI(r[2]);
+        return null;
     }
 })(jQuery);
 
@@ -170,4 +171,33 @@ function add_card(father, img, title, description, time, index, PID) {
         '                        </div>\n' +
         '                    </div>\n' +
         '                </div>');
+}
+
+if (getCookie("layout")!=='undefined'){
+    $('body').addClass(('mdui-theme-layout-'+getCookie("layout"))); //在原来的后面加这个
+}
+
+if (getCookie("primary")!=='undefined'){
+    $('body').addClass(('mdui-theme-primary-'+getCookie("primary"))); //在原来的后面加这个
+}
+
+if (getCookie("accent")!=='undefined'){
+    $('body').addClass(('mdui-theme-accent-'+getCookie("accent"))); //在原来的后面加这个
+}
+
+function getCookie(cookie_name) {
+    let allcookies = document.cookie;
+    let value;
+    let cookie_pos = allcookies.indexOf(cookie_name);
+    if (cookie_pos !== -1) {
+        cookie_pos += cookie_name.length + 1;
+        let cookie_end = allcookies.indexOf(";", cookie_pos);
+
+        if (cookie_end === -1) {
+            cookie_end = allcookies.length;
+        }
+
+        value = unescape(allcookies.substring(cookie_pos, cookie_end));
+    }
+    return value;
 }
