@@ -369,6 +369,42 @@ if ($_POST['function']=='search'){
     exit(0);
 }
 
+if ($_POST['function']=='update_password'){
+    if (!check_login($conn)) {
+        $arr = ["isSucceed" => "false", "error_message" => "您未登录"];
+        Response::json(401, "User Not Login", $arr);
+        exit(0);
+    }
+    $result=$conn->query("SELECT Password FROM user WHERE Token='" . $_COOKIE['Token'] . "' AND TokenID='" . $_COOKIE['TokenID'] . "'");
+    if ($result->num_rows!=1){
+        $arr = ["isSucceed" => "false", "error_message" => "您未登录"];
+        Response::json(401, "User Not Login", $arr);
+        exit(0);
+    }
+    $row=$result->fetch_assoc();
+    if ($row['Password']!=md5("#*#*4636" . md5($_POST['password_old']) . "114514*#*#")){
+        $arr = ["isSucceed" => "false", "error_message" => "旧密码错误"];
+        Response::json(403, "Wrong Password", $arr);
+        exit(0);
+    }
+    $conn->query("UPDATE user SET Password='".md5("#*#*4636" . md5($_POST['password']) . "114514*#*#")."' WHERE Token='" . $_COOKIE['Token'] . "' AND TokenID='" . $_COOKIE['TokenID'] . "'");
+    $arr = ["isSucceed" => "true"];
+    Response::json(200, "API successfully called", $arr);
+    exit(0);
+}
+
+if ($_POST['function']=='update_username'){
+    if (!check_login($conn)) {
+        $arr = ["isSucceed" => "false", "error_message" => "您未登录"];
+        Response::json(401, "User Not Login", $arr);
+        exit(0);
+    }
+    $conn->query("UPDATE user SET UserName='".$_POST['username']."' WHERE Token='" . $_COOKIE['Token'] . "' AND TokenID='" . $_COOKIE['TokenID'] . "'");
+    $arr = ["isSucceed" => "true"];
+    Response::json(200, "API successfully called", $arr);
+    exit(0);
+}
+
 function check_login($conn): bool
 {
     if (@!$_COOKIE['TokenID'] && !@$_COOKIE['Token']) {

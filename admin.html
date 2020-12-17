@@ -83,6 +83,68 @@
     <div class="mdui-divider"></div>
     <div class="mdui-row">
         <div class="mdui-col-md-6 mdui-col-offset-md-3">
+            <h2 class="doc-title mdui-text-color-theme">后台密码</h2>
+            <div class="mdui-panel" mdui-panel>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">修改后台密码</div>
+                        <div class="mdui-panel-item-summary"></div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="password_old" class="mdui-textfield-input" type="password" placeholder="旧密码"/>
+                            </label>
+                        </div>
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="password" class="mdui-textfield-input" type="password" placeholder="新密码"/>
+                            </label>
+                        </div>
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="password_twice" class="mdui-textfield-input" type="password" placeholder="再次输入"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>
+                            <button class="mdui-btn mdui-ripple" onclick="update_password();">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="mdui-row">
+        <div class="mdui-col-md-6 mdui-col-offset-md-3">
+            <h2 class="doc-title mdui-text-color-theme">后台登录名</h2>
+            <div class="mdui-panel" mdui-panel id="admin">
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">修改后台登录名</div>
+                        <div class="mdui-panel-item-summary"></div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="username" class="mdui-textfield-input" type="text" placeholder="新登录名"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>
+                            <button class="mdui-btn mdui-ripple" onclick="update_username();">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="mdui-row">
+        <div class="mdui-col-md-6 mdui-col-offset-md-3">
             <h2 class="doc-title mdui-text-color-theme">文章管理</h2>
             <div class="mdui-panel" mdui-panel id="pages">
                 <div class="mdui-panel-item">
@@ -1023,6 +1085,82 @@
                 },
                 error: function () {
                     mdui.alert("未知错误", "提醒")
+                }
+            })
+        });
+    }
+    function update_password(){
+        mdui.confirm("确认修改？","提醒",function (){
+            let password_old=$('#password_old').val()
+            let password=$('#password').val()
+            let password_twice=$('#password_twice').val()
+            if (password===''||password_twice===''){
+                mdui.alert("密码不能为空","警告")
+                return
+            }
+            if (password!==password_twice){
+                mdui.alert("两次密码不一致","警告")
+                return
+            }
+            $.ajax({
+                url:'api.php',
+                type:'post',
+                dataType:'json',
+                data:{
+                    'function':'update_password',
+                    'password_old':password_old,
+                    'password':password
+                },
+                success:function (result){
+                    if(result.data.isSucceed==='true'){
+                        $.ajax({
+                            type: "POST",
+                            url: "api.php",
+                            dataType: "json",
+                            data: {
+                                "function": "logout"
+                            },
+                            success: function () {
+                                document.cookie = "TokenID" + "=" + "" + "; " + "-1";
+                                document.cookie = "Token" + "=" + "" + "; " + "-1";
+                            }
+                        });
+                        mdui.alert("修改成功，下次登录生效","提醒")
+
+                    }else{
+                        mdui.alert(result.data.error_message,"警告")
+                    }
+                },
+                error:function (){
+                    mdui.alert("未知错误","提醒")
+                }
+            })
+        });
+    }
+
+    function update_username() {
+        mdui.confirm("确认修改？", "提醒", function () {
+            let username=$('#username').val()
+            if (username===''){
+                mdui.alert("登录名不能为空","警告")
+            }
+            $.ajax({
+                url:'api.php',
+                type:'post',
+                dataType:'json',
+                data:{
+                    'function':'update_username',
+                    'username':username
+                },
+                success:function (result){
+                    if (result.data.isSucceed==='true'){
+                        mdui.alert("登录名已更改，下次登录生效","提醒")
+                    }else{
+                        mdui.alert(result.data.error_message,"警告")
+                    }
+                },
+                error:function (){
+
                 }
             })
         });
