@@ -11,7 +11,7 @@
  Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 17/12/2020 10:25:36
+ Date: 17/12/2020 13:34:11
 */
 
 SET NAMES utf8mb4;
@@ -55,10 +55,10 @@ CREATE TABLE `pages`  (
   `Title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `index_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `Description` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `Content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `Content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `LatestSubmit` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`PID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pages
@@ -118,7 +118,7 @@ CREATE TABLE `tags`  (
   `Tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `PID` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`TID`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tags
@@ -140,7 +140,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', 'e47af108b04c61795c5e522f381066e8', 'dc052d8e586eb7d4501b251d33a39a00', 'dc052d8e586eb7d4501b251d33a39a00');
+INSERT INTO `user` VALUES (1, 'admin', 'e47af108b04c61795c5e522f381066e8', 'a1b319f4344dd45babf8b5c85889008d', '27157329d53bf0e32d67c465fbe56ddc');
 
 -- ----------------------------
 -- Triggers structure for table pages

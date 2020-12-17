@@ -78,7 +78,7 @@
     <div class="mdui-progress-indeterminate"></div>
 </div>
 <div class="mdui-container doc-container">
-    <h1 class="doc-title mdui-text-color-theme" id="title" v-html="title">测试</h1>
+    <h1 class="doc-title mdui-text-color-theme" id="title" v-html="title">{{ title }}</h1>
     <div class="mdui-divider"></div>
 
     <div class="mdui-container">
@@ -418,6 +418,13 @@
         }
     });
 
+    const title=new Vue({
+        el:'#title',
+        data:{
+            title:''
+        }
+    })
+
     $.ajax({
         url: "api.php",
         type: "post",
@@ -455,6 +462,7 @@
                 $('#tags').append('<a style="text-decoration: none" href="tag.html?tag='+result.data.tags[i].Tag+'">#'+result.data.tags[i].Tag+'</a>')
             }
             $('#time').append(result.data.latestsubmit)
+            title.$data.title=result.data.title;
         },
         error:function (){
             $('#drawing_progress').hide()
