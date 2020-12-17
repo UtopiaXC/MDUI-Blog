@@ -1,5 +1,5 @@
 <?php
-
+require_once 'config.php';
 class Response
 {
     public static function json($code, $message = '', $data = [])
@@ -14,12 +14,7 @@ class Response
     }
 }
 
-$servername = 'localhost';
-$username = 'root';
-$password = '123456';
-$db = 'blog_wu';
-
-$conn = new mysqli($servername, $username, $password, $db);
+$conn = new mysqli(servername, username, password, db);
 
 header('Content-Type:text/json;charset=utf-8');
 
