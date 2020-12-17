@@ -17,7 +17,7 @@
 ```# git clone https://github.com/UtopiaXC/MDUI-Blog.git```
    
 3. 将全部文件移至网站目录
-```# mv /www/wwwroot/xxx.xxx.xxx/* /www/wwwroot/xxx.xxx.xxx```
+```# mv /www/wwwroot/xxx.xxx.xxx/MDUI-Blog/* /www/wwwroot/xxx.xxx.xxx```
    
 4. 在Apache/Nginx设置中将网站默认文档改为index.html
 
