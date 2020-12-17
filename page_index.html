@@ -78,7 +78,7 @@
     <div class="mdui-progress-indeterminate"></div>
 </div>
 <div class="mdui-container doc-container">
-    <h1 class="doc-title mdui-text-color-theme">首页</h1>
+    <h1 class="doc-title mdui-text-color-theme" id="title">{{ title }}</h1>
     <div class="mdui-divider"></div>
 
     <div class="mdui-container">
@@ -406,6 +406,13 @@
         }
     });
 
+    const title=new Vue({
+        el:'#title',
+        data:{
+            title:'目录：'+$.getUrlParam("index")
+        }
+    })
+
     $.ajax({
         url: "api.php",
         type: "post",
@@ -431,7 +438,8 @@
         type:"post",
         dataType:"json",
         data:{
-            'function':'draw_main_page',
+            'function':'draw_index_page',
+            'index':$.getUrlParam('index')
         },
         success:function (result){
             for (i=0;i<result.data.count;i++){

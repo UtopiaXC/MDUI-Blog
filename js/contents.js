@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     var $document = $(document);
 
     // 代码高亮
@@ -10,7 +10,7 @@ $(function() {
         speedAsDuration: true
     });
 
-    $('.mdui-toolbar-spacer').on('click', function() {
+    $('.mdui-toolbar-spacer').on('click', function () {
         scroll.animateScroll(0);
     });
 
@@ -39,7 +39,7 @@ $(function() {
     var setCookie = function (key, value) {
         // cookie 有效期为 1 年
         var date = new Date();
-        date.setTime(date.getTime() + 365*24*3600*1000);
+        date.setTime(date.getTime() + 365 * 24 * 3600 * 1000);
         document.cookie = key + '=' + value + '; expires=' + date.toGMTString() + '; path=/';
     };
 
@@ -147,25 +147,25 @@ $(function() {
 
 (function ($) {
     $.getUrlParam = function (name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
-        if (r != null) return unescape(r[2]); return null;
+        if (r != null) return decodeURI(r[2]); return null;
     }
 })(jQuery);
 
-function add_card(father,img,title,description,time,index,PID){
+function add_card(father, img, title, description, time, index, PID) {
     father.append('<div class="mdui-card" style="margin-top: 30px">\n' +
         '                    <div class="mdui-card-media">\n' +
-        '                        <img src="'+img+'" alt=""/>\n' +
+        '                        <img src="' + img + '" alt=""/>\n' +
         '                        <div class="mdui-card-media-covered">\n' +
         '                            <div class="mdui-card-primary">\n' +
-        '                                <div class="mdui-card-primary-title">'+title+'</div>\n' +
-        '                                <div class="mdui-card-primary-subtitle">'+description+'</div>\n' +
-        '                                <div class="mdui-card-primary-subtitle">'+time+'</div>\n' +
+        '                                <div class="mdui-card-primary-title">' + title + '</div>\n' +
+        '                                <div class="mdui-card-primary-subtitle">' + description + '</div>\n' +
+        '                                <div class="mdui-card-primary-subtitle">' + time + '</div>\n' +
         '                            </div>\n' +
         '                            <div class="mdui-card-actions" style="text-align: right">\n' +
-        '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page_index.html?index='+index+'\'">访问目录</button>\n' +
-        '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page.html?PID='+PID+'\'">阅读全文</button>\n' +
+        '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page_index.html?index=' + index + '\'">访问目录</button>\n' +
+        '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page.html?PID=' + PID + '\'">阅读全文</button>\n' +
         '                            </div>\n' +
         '                        </div>\n' +
         '                    </div>\n' +

@@ -319,6 +319,21 @@ if ($_POST['function'] == "update_page") {
     exit(0);
 }
 
+if ($_POST['function']=="draw_index_page"){
+    $result=$conn->query("SELECT pid, title, index_name, description, latestsubmit FROM pages WHERE index_name='".$_POST['index']."' ORDER BY PID DESC LIMIT 10");
+    $count=$result->num_rows;
+    $pages=[];
+    while ($row=$result->fetch_assoc()){
+        $pics=$conn->query("SELECT PicLink FROM pictures ORDER BY RAND() LIMIT 1");
+        $pic=$pics->fetch_assoc();
+        $row+=['pic'=>$pic['PicLink']];
+        array_push($pages,$row);
+    }
+    $data=['count'=>$count,'pages'=>$pages];
+    Response::json(200, "API successfully called", $data);
+    exit(0);
+}
+
 function check_login($conn): bool
 {
     if (@!$_COOKIE['TokenID'] && !@$_COOKIE['Token']) {
