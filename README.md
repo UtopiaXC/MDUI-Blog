@@ -54,22 +54,22 @@
 部分截图  
 
 #### 主页
-![主页](show/main_page.png)
+![主页](https://s3.ax1x.com/2020/12/17/r8hIr4.png)
 
 #### 目录
-![目录](show/index.png)
+![目录](https://s3.ax1x.com/2020/12/17/r8hoqJ.png)
 
 #### 主题
-![主题](show/theme.png)
+![主题](https://s3.ax1x.com/2020/12/17/r8hhxU.png)
 
 #### 后台管理
-![后台管理](show/admin.png)
+![后台管理](https://s3.ax1x.com/2020/12/17/r8hWGV.png)
 
 #### 文章编辑
-![文章编辑](show/page_editor.png)
+![文章编辑](https://s3.ax1x.com/2020/12/17/r8hRP0.png)
 
 #### 文章页
-![文章页](show/page.png)
+![文章页](https://s3.ax1x.com/2020/12/17/r8hf2T.png)
 
 #### 
 
