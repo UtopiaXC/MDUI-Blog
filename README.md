@@ -51,25 +51,25 @@
 ## Demo  
 朋友已经部署好的网站：[https://decisive.icu/](https://decisive.icu/)  
 
-部分截图  
+部分截图（如果无法加载请使用代理）  
 
 #### 主页
-![主页](https://s3.ax1x.com/2020/12/17/r8hIr4.png)
+![主页](show/main_page.png)
 
 #### 目录
-![目录](https://s3.ax1x.com/2020/12/17/r8hoqJ.png)
+![目录](show/index.png)
 
 #### 主题
-![主题](https://s3.ax1x.com/2020/12/17/r8hhxU.png)
+![主题](show/theme.png)
 
 #### 后台管理
-![后台管理](https://s3.ax1x.com/2020/12/17/r8hWGV.png)
+![后台管理](show/admin.png)
 
 #### 文章编辑
-![文章编辑](https://s3.ax1x.com/2020/12/17/r8hRP0.png)
+![文章编辑](show/page_editor.png)
 
 #### 文章页
-![文章页](https://s3.ax1x.com/2020/12/17/r8hf2T.png)
+![文章页](show/page.png)
 
 #### 
 
