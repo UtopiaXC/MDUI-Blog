@@ -102,7 +102,6 @@
         <img alt="知识共享许可协议" style="border-width:0" src="https://s3.ax1x.com/2020/11/21/D3uwY8.png" />
     </a>
 </div>
-<div id="editor" style="display: none"></div>
 <div class="mdui-dialog" id="dialog-theme">
     <div class="mdui-dialog-title">设置主题</div>
     <div class="mdui-dialog-content">
@@ -403,7 +402,6 @@
 <script src="https://cdn.jsdelivr.net/npm/holderjs@2.9.7/holder.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/wangeditor@4.5.3/dist/wangEditor.min.js"></script>
 <script src="js/contents.js"></script>
 <script>
     const links = new Vue({
@@ -451,10 +449,7 @@
         success:function (result){
             if (result.code===404)
                 window.location.href='PageNotFound.html';
-            const editor = new window.wangEditor('#editor')
-            editor.create()
-            editor.txt.setJSON(JSON.parse(result.data.content))
-            $('#content').append(editor.txt.html());
+            $('#content').append(result.data.content);
             $('#drawing_progress').hide()
             for (i=0;i<result.data.tags_count;i++){
                 $('#tags').append('<a style="text-decoration: none" href="tag.html?tag='+result.data.tags[i].Tag+'">#'+result.data.tags[i].Tag+'</a>')

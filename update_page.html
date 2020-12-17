@@ -504,7 +504,7 @@
             'PID':$.getUrlParam('pid'),
         },
         success:function (result){
-            editor.txt.setJSON(JSON.parse(result.data.content))
+            editor.txt.html(result.data.content)
             $("#title").val(result.data.title)
             $("#index_option").val(result.data.index_name)
             index_option.handleUpdate()
@@ -542,7 +542,7 @@
     }
 
     function submit_page() {
-        let form = JSON.stringify(editor.txt.getJSON());
+        let form = editor.txt.html();
         let title=$("#title").val()
         let description=$('#description').val()
         let index=$('#index_option').find("option:selected").val()

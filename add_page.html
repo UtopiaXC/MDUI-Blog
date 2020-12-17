@@ -516,7 +516,7 @@
     }
 
     function submit_page() {
-        let form = JSON.stringify(editor.txt.getJSON());
+        let form = editor.txt.html();
         let title=$("#title").val()
         let description=$('#description').val()
         let index=$('#index_option').find("option:selected").val()
