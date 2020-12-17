@@ -21,6 +21,10 @@
    
 4. 在Apache/Nginx设置中将网站默认文档改为index.html
 
+5. 授予文件读写权限
+```# chmod -R 777 /www/wwwroot/xxx.xxx.xxx```  
+   
+
 二、部署数据库
 1. 打开mysql
 ```# mysql -u username -p```
