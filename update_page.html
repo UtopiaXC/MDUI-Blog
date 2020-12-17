@@ -90,7 +90,7 @@
     <div class="mdui-progress-indeterminate"></div>
 </div>
 <div class="mdui-container doc-container">
-    <h1 class="doc-title mdui-text-color-theme">添加文章</h1>
+    <h1 class="doc-title mdui-text-color-theme">编辑文章</h1>
     <div class="mdui-divider"></div>
     <div class="mdui-row" style="margin-top: 30px">
         <div class="mdui-col-md-6" style="margin-top: 30px">
@@ -504,6 +504,7 @@
             'PID':$.getUrlParam('pid'),
         },
         success:function (result){
+            console.log(result.data.content)
             editor.txt.html(result.data.content)
             $("#title").val(result.data.title)
             $("#index_option").val(result.data.index_name)

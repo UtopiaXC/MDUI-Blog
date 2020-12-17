@@ -201,8 +201,14 @@ if ($_POST['function'] == "add_page") {
         Response::json(401, "User Not Login", $arr);
         exit(0);
     }
+
+    $path_name="content/".md5($_POST['title'].time()).".html";
+    $file = fopen($path_name, "w+");
+    fwrite($file, $_POST['content']);
+    fclose($file);
+
     $conn->query("INSERT INTO pages (title, index_name, description, content)
-        VALUES ('" . $_POST['title'] . "','" . $_POST['index_name'] . "','" . $_POST['description'] . "','" . $_POST['content'] . "')");
+        VALUES ('" . $_POST['title'] . "','" . $_POST['index_name'] . "','" . $_POST['description'] . "','" . $path_name . "')");
     $result = $conn->query("SELECT LAST_INSERT_ID()");
     $ID = $result->fetch_assoc()['LAST_INSERT_ID()'];
     if (@$_POST['tags']) {
@@ -243,6 +249,11 @@ if ($_POST['function']=="draw_page"){
         exit(0);
     }
     $row=$result->fetch_assoc();
+
+    $file = fopen( $row['content'], "r");
+    $row['content']=fread($file,filesize($row['content']));
+    fclose($file);
+
     $result=$conn->query("SELECT Tag FROM tags WHERE PID=".$_POST['PID']);
     $tags_count=$result->num_rows;
     $tags=[];
@@ -298,10 +309,19 @@ if ($_POST['function'] == "update_page") {
         Response::json(401, "User Not Login", $arr);
         exit(0);
     }
+
+    $result=$conn->query("SELECT Content FROM pages WHERE PID=".$_POST['pid']);
+    $row=$result->fetch_assoc();
+
+    $path_name=$row['Content'];
+    $file = fopen($path_name, "w+");
+    fwrite($file, $_POST['content']);
+    fclose($file);
+
     $conn->query("UPDATE pages SET Title='" . $_POST['title'] .
         "',index_name='" . $_POST['index_name'] .
         "',Description='" . $_POST['description'] .
-        "',Content='" . $_POST['content'] . "' WHERE PID=".$_POST['pid']);
+        "' WHERE PID=".$_POST['pid']);
     $conn->query("DELETE FROM tags WHERE PID=".$_POST['pid']);
     $ID=$_POST['pid'];
     if (@$_POST['tags']) {
