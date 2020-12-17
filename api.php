@@ -44,6 +44,18 @@ if ($_POST['function'] == "draw_slider") {
     exit(0);
 }
 
+if ($_POST['function'] == "admin_pic") {
+    $result = $conn->query("SELECT PID, PicTitle, PicLink FROM pictures ORDER BY PID");
+    $count = $result->num_rows;
+    $pics = [];
+    while ($row = $result->fetch_assoc()) {
+        array_push($pics, $row);
+    }
+    $data = ['pic' => $pics,'count'=>$count];
+    Response::json(200, "API Successfully Called", $data);
+    exit(0);
+}
+
 if ($_POST['function'] == "login") {
     $stmt = $conn->prepare("SELECT Password FROM user WHERE UserName=?");
     $stmt->bind_param("s", $_POST['username']);
@@ -207,6 +219,9 @@ if ($_POST['function']=="draw_main_page"){
     $count=$result->num_rows;
     $pages=[];
     while ($row=$result->fetch_assoc()){
+        $pics=$conn->query("SELECT PicLink FROM pictures ORDER BY RAND() LIMIT 1");
+        $pic=$pics->fetch_assoc();
+        $row+=['pic'=>$pic['PicLink']];
         array_push($pages,$row);
     }
     $data=['count'=>$count,'pages'=>$pages];
@@ -222,9 +237,82 @@ if ($_POST['function']=="draw_page"){
         exit(0);
     }
     $row=$result->fetch_assoc();
+    $result=$conn->query("SELECT Tag FROM tags WHERE PID=".$_POST['PID']);
+    $tags_count=$result->num_rows;
+    $tags=[];
+    while ($tag=$result->fetch_assoc()){
+        array_push($tags,$tag);
+    }
+    $row+=['tags'=>$tags,'tags_count'=>$tags_count];
     Response::json(200, "API successfully called", $row);
     exit(0);
 }
+
+if ($_POST['function']=="delete_page"){
+    if (!check_login($conn)) {
+        $arr = ["isSucceed" => 'false'];
+        Response::json(401, "User Not Login", $arr);
+        exit(0);
+    }
+    $conn->query("DELETE FROM pages WHERE PID='" . $_POST['pid'] . "'");
+    $conn->query("DELETE FROM tags WHERE PID='" . $_POST['pid'] . "'");
+    $arr = ["isSucceed" => 'true'];
+    Response::json(200, "API successfully called", $arr);
+    exit(0);
+}
+
+if ($_POST['function'] == "add_pic") {
+    if (!check_login($conn)) {
+        $arr = ["isSucceed" => "false", "error_message" => "您未登录"];
+        Response::json(401, "User Not Login", $arr);
+        exit(0);
+    }
+    $conn->query("INSERT INTO pictures (PicTitle, PicLink)VALUES('" . $_POST['pic_title'] . "','" . $_POST['pic'] . "')");
+    $arr = ["isSucceed" => "true"];
+    Response::json(200, "API successfully called", $arr);
+    exit(0);
+
+}
+
+if ($_POST['function'] == "delete_pic") {
+    if (!check_login($conn)) {
+        $arr = ["isSucceed" => 'false'];
+        Response::json(401, "User Not Login", $arr);
+        exit(0);
+    }
+    $conn->query("DELETE FROM pictures WHERE PID='" . $_POST['pid'] . "'");
+    $arr = ["isSucceed" => 'true'];
+    Response::json(200, "API successfully called", $arr);
+    exit(0);
+}
+
+if ($_POST['function'] == "update_page") {
+    if (!check_login($conn)) {
+        $arr = ["isSucceed" => "false", "error_message" => "您未登录"];
+        Response::json(401, "User Not Login", $arr);
+        exit(0);
+    }
+    $conn->query("UPDATE pages SET Title='" . $_POST['title'] .
+        "',index_name='" . $_POST['index_name'] .
+        "',Description='" . $_POST['description'] .
+        "',Content='" . $_POST['content'] . "' WHERE PID=".$_POST['pid']);
+    $conn->query("DELETE FROM tags WHERE PID=".$_POST['pid']);
+    $ID=$_POST['pid'];
+    if (@$_POST['tags']) {
+        if ($_POST['tags'])
+            $tags = @explode(',', $_POST['tags']);
+        if (@!count($tags)> 1)
+            $conn->query("INSERT INTO tags (Tag, PID)VALUES('$tags',$ID) ");
+        else
+            foreach ($tags as $value) {
+                $conn->query("INSERT INTO tags (Tag, PID)VALUES('$value',$ID) ");
+            }
+    }
+    $arr = ["isSucceed" => "true", "PID" => $ID];
+    Response::json(200, "API successfully called", $arr);
+    exit(0);
+}
+
 function check_login($conn): bool
 {
     if (@!$_COOKIE['TokenID'] && !@$_COOKIE['Token']) {

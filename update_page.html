@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Decisive's Blog - 新文章</title>
+    <title>Decisive's Blog - 编辑文章</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/vs.min.css"/>
@@ -146,9 +146,10 @@
 <script>
     const editor = new window.wangEditor('#editor')
     editor.config.height = 500
-
     editor.create()
+    let index_option = new mdui.Select('#index_option');
     let tags = [];
+    let pid;
     $.ajax({
         url: "api.php",
         type: "post",
@@ -196,7 +197,6 @@
             }
             for (i = 0; i < result.data.count_indexes; i++) {
                 indexes.$data.indexes += '<a href="page_index.html?index=' + result.data.indexes[i].IndexName + '" class="mdui-list-item mdui-ripple ">' + result.data.indexes[i].IndexName + '</a>';
-                let index_option = new mdui.Select('#index_option');
                 $("#index_option").append('<option value="' + result.data.indexes[i].IndexName + '">' + result.data.indexes[i].IndexName + '</option>');
                 index_option.handleUpdate()
             }
@@ -207,7 +207,33 @@
         }
     });
 
+    $.ajax({
+        url:'api.php',
+        type:'post',
+        dataType:'json',
+        data:{
+            'function':'draw_page',
+            'PID':$.getUrlParam('pid'),
+        },
+        success:function (result){
+            editor.txt.setJSON(JSON.parse(result.data.content))
+            $("#title").val(result.data.title)
+            $("#index_option").val(result.data.index_name)
+            index_option.handleUpdate()
+            $('#description').val(result.data.description)
+            for (i=0;i<result.data.tags_count;i++){
+                tags.push(result.data.tags[i].Tag)
+                $("#tags_list").append('<label id="' + result.data.tags[i].Tag + '" class="mdui-checkbox">' +
+                    '                       <input type="checkbox" onchange="remove_tag(\''+result.data.tags[i].Tag+'\');" checked/>' +
+                    '                       <i class="mdui-checkbox-icon"></i>' + result.data.tags[i].Tag +
+                    '                    </label>\n')
+            }
+            pid=result.data.pid;
+        },
+        error:function (){
 
+        }
+    })
 
     function logout() {
         mdui.confirm('是否确定退出？', '提醒', function () {
@@ -241,12 +267,13 @@
             type:"post",
             dataType:"json",
             data:{
-                'function':'add_page',
+                'function':'update_page',
                 'content':form,
                 'title':title,
                 'description':description,
                 'index_name':index,
-                'tags':tags.toString()
+                'tags':tags.toString(),
+                'pid':pid
             },
             success:function (result){
                 if (result.data.isSucceed==='false'){
@@ -263,7 +290,6 @@
             }
         })
     }
-
 
     $("#tags").keypress(function (e) {
         if (e.which === 13) {

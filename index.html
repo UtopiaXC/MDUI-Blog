@@ -35,8 +35,8 @@
             </div>
             <div class="mdui-collapse-item-body mdui-list">
                 <a href="/" class="mdui-list-item mdui-ripple ">主页</a>
-                <a href="" class="mdui-list-item mdui-ripple ">归档</a>
-                <a href="" class="mdui-list-item mdui-ripple ">标签</a>
+                <a href="archive.html" class="mdui-list-item mdui-ripple ">归档</a>
+                <a href="tags.html" class="mdui-list-item mdui-ripple ">标签</a>
             </div>
         </div>
         <div class="mdui-collapse-item ">
@@ -66,8 +66,8 @@
                 <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
             </div>
             <div class="mdui-collapse-item-body mdui-list">
-                <a href="" class="mdui-list-item mdui-ripple ">关于本站</a>
-                <a href="" class="mdui-list-item mdui-ripple ">关于我</a>
+                <a href="about_blog.html" class="mdui-list-item mdui-ripple ">关于本站</a>
+                <a href="about_me.html" class="mdui-list-item mdui-ripple ">关于我</a>
             </div>
         </div>
     </div>
@@ -434,10 +434,13 @@
             'function':'draw_main_page',
         },
         success:function (result){
+            if (result.data.count===0){
+                mdui.alert("当前站点还没有发布任何内容","提醒")
+            }
             for (i=0;i<result.data.count;i++){
                 add_card($(
                     "#card_content"),
-                    "https://cdn.w3cbus.com/mdui.org/docs/assets/docs/img/card.jpg",
+                    result.data.pages[i].pic,
                     result.data.pages[i].title,
                     result.data.pages[i].description,
                     result.data.pages[i].latestsubmit,
