@@ -293,29 +293,37 @@
         type: "post",
         dataType: "json",
         data: {
-            'function': 'draw_admin_pages',
+            'function': 'draw_main_page',
         },
         success: function (result) {
-
+            for (i=0;i<result.data.count;i++){
+                $('#pages').append(
+                    '<div class="mdui-panel-item">' +
+                    '                        <div class="mdui-panel-item-header">' +
+                    '                            <div class="mdui-panel-item-title">'+result.data.pages[i].title+'</div>' +
+                    '                            <div class="mdui-panel-item-summary">'+result.data.pages[i].description+'</div>' +
+                    '                            <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>' +
+                    '                        </div>' +
+                    '                        <div class="mdui-panel-item-body">' +
+                    '                            <div class="mdui-panel-item-actions">' +
+                    '                                <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>' +
+                    '                                <button class="mdui-btn mdui-ripple" onclick="delete_page(' + result.data.pages[i].pid + ')" mdui-panel>删除</button>' +
+                    '                                <button class="mdui-btn mdui-ripple" onclick="window.location.href=\'update_page.html?pid='+result.data.pages[i].pid+'\'">修改</button>' +
+                    '                            </div>' +
+                    '                        </div>' +
+                    '                    </div>')
+            }
+            draw_control++;
+            if (draw_control === 2)
+                $('#drawing_progress').hide()
         },
         error: function () {
-
+            draw_control++;
+            if (draw_control === 2)
+                $('#drawing_progress').hide()
+            console.log("Standard API Called Faultily");
         }
     })
-
-    /*<div class="mdui-panel-item">
-                        <div class="mdui-panel-item-header">
-                            <div class="mdui-panel-item-title">添加新文章</div>
-                            <div class="mdui-panel-item-summary"></div>
-                            <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
-                        </div>
-                        <div class="mdui-panel-item-body">
-                            <div class="mdui-panel-item-actions">
-                                <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>
-                                <button class="mdui-btn mdui-ripple" onclick="window.location.href='add_page.html'">添加</button>
-                            </div>
-                        </div>
-                    </div>*/
 
     function update_link(i) {
         let link_title_old = $("#link_title_old" + i)
