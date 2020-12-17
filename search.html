@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Decisive's Blog - 主页</title>
+    <title>Decisive's Blog - 搜索</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/vs.min.css"/>
@@ -12,6 +12,7 @@
 
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar">
 
+
 <header class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
@@ -20,7 +21,7 @@
         <div class="mdui-textfield mdui-textfield-expandable">
             <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></button>
             <label style="display: none" for="search"></label>
-                <input id="search"  class="mdui-textfield-input" type="text" placeholder="Search"/>
+            <input id="search"  class="mdui-textfield-input" type="text" placeholder="Search"/>
             <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i></button>
         </div>
         <div class="mdui-toolbar-spacer"></div>
@@ -29,7 +30,7 @@
               mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="window.open('admin.html')"
               mdui-tooltip="{content: '后台'}"><i class="mdui-icon material-icons">account_circle</i></span>
-         </div>
+    </div>
 </header>
 
 <div class="mdui-drawer" id="main-drawer" open.mdui.collapse>
@@ -85,7 +86,7 @@
     <div class="mdui-progress-indeterminate"></div>
 </div>
 <div class="mdui-container doc-container">
-    <h1 class="doc-title mdui-text-color-theme">首页</h1>
+    <h1 class="doc-title mdui-text-color-theme">搜索结果</h1>
     <div class="mdui-divider"></div>
 
     <div class="mdui-container">
@@ -437,11 +438,12 @@
         type:"post",
         dataType:"json",
         data:{
-            'function':'draw_main_page',
+            'function':'search',
+            'key':$.getUrlParam("key")
         },
         success:function (result){
             if (result.data.count===0){
-                mdui.alert("当前站点还没有发布任何内容","提醒")
+                mdui.alert("没有任何结果","提醒")
             }
             for (i=0;i<result.data.count;i++){
                 add_card($(

@@ -202,7 +202,7 @@ if ($_POST['function'] == "add_page") {
         exit(0);
     }
 
-    $path_name="content/".md5($_POST['title'].time()).".html";
+    $path_name="content/".md5($_POST['title'].microtime()).".html";
     $file = fopen($path_name, "w+");
     fwrite($file, $_POST['content']);
     fclose($file);
@@ -341,6 +341,21 @@ if ($_POST['function'] == "update_page") {
 
 if ($_POST['function']=="draw_index_page"){
     $result=$conn->query("SELECT pid, title, index_name, description, latestsubmit FROM pages WHERE index_name='".$_POST['index']."' ORDER BY PID DESC LIMIT 10");
+    $count=$result->num_rows;
+    $pages=[];
+    while ($row=$result->fetch_assoc()){
+        $pics=$conn->query("SELECT PicLink FROM pictures ORDER BY RAND() LIMIT 1");
+        $pic=$pics->fetch_assoc();
+        $row+=['pic'=>$pic['PicLink']];
+        array_push($pages,$row);
+    }
+    $data=['count'=>$count,'pages'=>$pages];
+    Response::json(200, "API successfully called", $data);
+    exit(0);
+}
+
+if ($_POST['function']=='search'){
+    $result=$conn->query("SELECT pid, title, index_name, description, latestsubmit FROM pages WHERE PID LIKE '".$_POST['key']."' OR Content LIKE '".$_POST['key']."' OR title  LIKE '".$_POST['key']."' OR description  LIKE '".$_POST['key']."' ORDER BY PID DESC LIMIT 10");
     $count=$result->num_rows;
     $pages=[];
     while ($row=$result->fetch_assoc()){

@@ -12,17 +12,25 @@
 
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar">
 
+
 <header class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
               mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
         <a href="/" class="mdui-typo-headline mdui-hidden-xs">Decisive 's Blog</a>
+        <div class="mdui-textfield mdui-textfield-expandable">
+            <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></button>
+            <label style="display: none" for="search"></label>
+                <input id="search"  class="mdui-textfield-input" type="text" placeholder="Search"/>
+            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i></button>
+        </div>
         <div class="mdui-toolbar-spacer"></div>
+
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-theme'}"
               mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" onclick="window.open('admin.html')"
               mdui-tooltip="{content: '后台'}"><i class="mdui-icon material-icons">account_circle</i></span>
-    </div>
+         </div>
 </header>
 
 <div class="mdui-drawer" id="main-drawer" open.mdui.collapse>

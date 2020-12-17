@@ -155,7 +155,7 @@ $(function () {
 })(jQuery);
 
 function add_card(father, img, title, description, time, index, PID) {
-    father.append('<div class="mdui-card" style="margin-top: 30px">\n' +
+    father.append('<div class="mdui-card mdui-hoverable" style="margin-top: 30px">\n' +
         '                    <div class="mdui-card-media">\n' +
         '                        <img src="' + img + '" alt=""/>\n' +
         '                        <div class="mdui-card-media-covered">\n' +
@@ -201,3 +201,9 @@ function getCookie(cookie_name) {
     }
     return value;
 }
+
+$("#search").keypress(function (e) {
+    if (e.which === 13) {
+        window.location.href="search.html?key="+$('#search').val()
+    }
+})
