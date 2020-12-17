@@ -11,7 +11,7 @@
  Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 16/12/2020 15:48:43
+ Date: 17/12/2020 10:25:36
 */
 
 SET NAMES utf8mb4;
@@ -28,6 +28,10 @@ CREATE TABLE `indexes`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of indexes
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for links
 -- ----------------------------
 DROP TABLE IF EXISTS `links`;
@@ -36,7 +40,11 @@ CREATE TABLE `links`  (
   `LinkTitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `Link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of links
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for pages
@@ -53,6 +61,55 @@ CREATE TABLE `pages`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of pages
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for pictures
+-- ----------------------------
+DROP TABLE IF EXISTS `pictures`;
+CREATE TABLE `pictures`  (
+  `PID` int(11) NOT NULL AUTO_INCREMENT,
+  `PicTitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `PicLink` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`PID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pictures
+-- ----------------------------
+INSERT INTO `pictures` VALUES (1, '1', 'https://s3.ax1x.com/2020/12/17/r31fD1.png');
+INSERT INTO `pictures` VALUES (2, '2', 'https://s3.ax1x.com/2020/12/17/r312v9.jpg');
+INSERT INTO `pictures` VALUES (3, '3', 'https://s3.ax1x.com/2020/12/17/r31WuR.jpg');
+INSERT INTO `pictures` VALUES (4, '4', 'https://s3.ax1x.com/2020/12/17/r31ggJ.jpg');
+INSERT INTO `pictures` VALUES (5, '5', 'https://s3.ax1x.com/2020/12/17/r31c34.jpg');
+INSERT INTO `pictures` VALUES (6, '6', 'https://s3.ax1x.com/2020/12/17/r31hHx.jpg');
+INSERT INTO `pictures` VALUES (7, '7', 'https://s3.ax1x.com/2020/12/17/r315E6.jpg');
+INSERT INTO `pictures` VALUES (8, '8', 'https://s3.ax1x.com/2020/12/17/r31bgH.png');
+INSERT INTO `pictures` VALUES (9, '9', 'https://s3.ax1x.com/2020/12/17/r31H8e.jpg');
+INSERT INTO `pictures` VALUES (10, '10', 'https://s3.ax1x.com/2020/12/17/r317CD.jpg');
+INSERT INTO `pictures` VALUES (11, '11', 'https://s3.ax1x.com/2020/12/17/r31IUK.jpg');
+INSERT INTO `pictures` VALUES (12, '12', 'https://s3.ax1x.com/2020/12/17/r31o4O.jpg');
+INSERT INTO `pictures` VALUES (13, '13', 'https://s3.ax1x.com/2020/12/17/r31qvd.jpg');
+INSERT INTO `pictures` VALUES (14, '14', 'https://s3.ax1x.com/2020/12/17/r31XDI.jpg');
+INSERT INTO `pictures` VALUES (15, '15', 'https://s3.ax1x.com/2020/12/17/r31OKA.jpg');
+INSERT INTO `pictures` VALUES (16, '16', 'https://s3.ax1x.com/2020/12/17/r31jbt.png');
+INSERT INTO `pictures` VALUES (17, '17', 'https://s3.ax1x.com/2020/12/17/r31zUf.jpg');
+INSERT INTO `pictures` VALUES (18, '18', 'https://s3.ax1x.com/2020/12/17/r31xVP.jpg');
+INSERT INTO `pictures` VALUES (19, '19', 'https://s3.ax1x.com/2020/12/17/r33S58.jpg');
+INSERT INTO `pictures` VALUES (20, '20', 'https://s3.ax1x.com/2020/12/17/r33ZV0.png');
+INSERT INTO `pictures` VALUES (21, '21', 'https://s3.ax1x.com/2020/12/17/r33kKs.png');
+INSERT INTO `pictures` VALUES (22, '22', 'https://s3.ax1x.com/2020/12/17/r339PS.jpg');
+INSERT INTO `pictures` VALUES (23, '23', 'https://s3.ax1x.com/2020/12/17/r33C8g.jpg');
+INSERT INTO `pictures` VALUES (24, '24', 'https://s3.ax1x.com/2020/12/17/r33P2Q.jpg');
+INSERT INTO `pictures` VALUES (25, '25', 'https://s3.ax1x.com/2020/12/17/r33Ebq.png');
+INSERT INTO `pictures` VALUES (26, '26', 'https://s3.ax1x.com/2020/12/17/r33ivj.jpg');
+INSERT INTO `pictures` VALUES (27, '27', 'https://s3.ax1x.com/2020/12/17/r33Arn.jpg');
+INSERT INTO `pictures` VALUES (28, '28', 'https://s3.ax1x.com/2020/12/17/r33eaV.jpg');
+INSERT INTO `pictures` VALUES (29, '29', 'https://s3.ax1x.com/2020/12/17/r33m5T.jpg');
+INSERT INTO `pictures` VALUES (30, '30', 'https://s3.ax1x.com/2020/12/17/r33KGF.jpg');
+
+-- ----------------------------
 -- Table structure for tags
 -- ----------------------------
 DROP TABLE IF EXISTS `tags`;
@@ -62,6 +119,10 @@ CREATE TABLE `tags`  (
   `PID` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`TID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tags
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user
@@ -74,7 +135,12 @@ CREATE TABLE `user`  (
   `TokenID` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `Token` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`UID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, 'admin', 'e47af108b04c61795c5e522f381066e8', 'dc052d8e586eb7d4501b251d33a39a00', 'dc052d8e586eb7d4501b251d33a39a00');
 
 -- ----------------------------
 -- Triggers structure for table pages
@@ -94,19 +160,6 @@ DROP TRIGGER IF EXISTS `set_page_update_time`;
 delimiter ;;
 CREATE TRIGGER `set_page_update_time` BEFORE UPDATE ON `pages` FOR EACH ROW BEGIN
 SET new.LatestSubmit=NOW();
-END
-;;
-delimiter ;
-
--- ----------------------------
--- Triggers structure for table user
--- ----------------------------
-DROP TRIGGER IF EXISTS `AddUser`;
-delimiter ;;
-CREATE TRIGGER `AddUser` AFTER INSERT ON `user` FOR EACH ROW BEGIN
-
-INSERT INTO user_messages (UID,Avatar,Name,Sex)VALUES(new.UID,"/sources/avatar/user-img.jpg",new.UserName,"未知");
-
 END
 ;;
 delimiter ;
