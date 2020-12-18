@@ -104,27 +104,27 @@ vim /www/wwwroot/xxx.xxx.xxx/config.php
 
 部分截图（如果无法加载请使用代理）
 
-#### 主页
+### 主页
 
 ![主页](show/main_page.png)
 
-#### 目录
+### 目录
 
 ![目录](show/index.png)
 
-#### 主题
+### 主题
 
 ![主题](show/theme.png)
 
-#### 后台管理
+### 后台管理
 
 ![后台管理](show/admin.png)
 
-#### 文章编辑
+### 文章编辑
 
 ![文章编辑](show/page_editor.png)
 
-#### 文章页
+### 文章页
 
 ![文章页](show/page.png)
 
