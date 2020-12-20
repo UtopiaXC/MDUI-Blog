@@ -99,8 +99,7 @@ vim /www/wwwroot/xxx.xxx.xxx/config.php
 登录名：admin 密码：admin
 
 ## Demo
-
-朋友已经部署好的网站：[https://decisive.icu/](https://decisive.icu/)
+配置阿里云1C2G：[http://blog.mdui.utopiaxc.cn/](http://blog.mdui.utopiaxc.cn/)
 
 部分截图（如果无法加载请使用代理）
 
