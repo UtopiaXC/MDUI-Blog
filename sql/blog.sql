@@ -11,7 +11,7 @@
  Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 17/12/2020 16:45:27
+ Date: 20/12/2020 12:02:10
 */
 
 SET NAMES utf8mb4;
@@ -59,10 +59,6 @@ CREATE TABLE `pages`  (
   `LatestSubmit` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`PID`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of pages
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for pictures
@@ -120,9 +116,7 @@ CREATE TABLE `tags`  (
   PRIMARY KEY (`TID`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
--- ----------------------------
--- Records of tags
--- ----------------------------
+
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
@@ -139,24 +133,26 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', 'e47af108b04c61795c5e522f381066e8', NULL, NULL);
+INSERT INTO `user` VALUES (1, 'admin', 'e47af108b04c61795c5e522f381066e8', '', '');
 
 -- ----------------------------
 -- Table structure for web_message
 -- ----------------------------
 DROP TABLE IF EXISTS `web_message`;
 CREATE TABLE `web_message`  (
-                                `ID` int(11) NOT NULL AUTO_INCREMENT,
-                                `WebTitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-                                `WebContent` varchar(2550) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-                                PRIMARY KEY (`ID`) USING BTREE
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `WebTitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `WebContent` varchar(2550) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
 
 -- ----------------------------
 -- Records of web_message
 -- ----------------------------
-INSERT INTO `web_message` VALUES (1, 'title', 'UtopiaXC\'s Blog');
+INSERT INTO `web_message` VALUES (1, 'title', 'UtopiaXC\'s Blog 镜像二站');
 INSERT INTO `web_message` VALUES (2, 'footer', 'Powered By <a href=\'https://github.com/UtopiaXC/MDUI-Blog/\' target=\'_blank\'>MDUI-Blog</a> | Designed By <a href=\'https://www.utopiaxc.cn/\' target=\'_blank\'>UtopiaXC</a>');
+
 
 -- ----------------------------
 -- Triggers structure for table pages
