@@ -147,8 +147,8 @@ INSERT INTO `user` VALUES (1, 'admin', 'e47af108b04c61795c5e522f381066e8', NULL,
 DROP TABLE IF EXISTS `web_message`;
 CREATE TABLE `web_message`  (
                                 `ID` int(11) NOT NULL AUTO_INCREMENT,
-                                `Title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-                                `Content` varchar(2550) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                `WebTitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                `WebContent` varchar(2550) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
                                 PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
