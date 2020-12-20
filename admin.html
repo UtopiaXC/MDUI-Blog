@@ -1256,6 +1256,18 @@
                 },
                 success:function (result){
                     if (result.data.isSucceed==='true'){
+                        $.ajax({
+                            type: "POST",
+                            url: "api.php",
+                            dataType: "json",
+                            data: {
+                                "function": "logout"
+                            },
+                            success: function () {
+                                document.cookie = "TokenID" + "=" + "" + "; " + "-1";
+                                document.cookie = "Token" + "=" + "" + "; " + "-1";
+                            }
+                        });
                         mdui.alert("登录名已更改，下次登录生效","提醒")
                     }else{
                         mdui.alert(result.data.error_message,"警告")
