@@ -35,6 +35,14 @@ if ($_POST['function'] == "draw_slider") {
         array_push($indexes, ['IndexName' => $row['index_name']]);
     }
     $data += ['indexes' => $indexes];
+    $result=$conn->query("SELECT WebTitle, WebContent FROM web_message");
+    $messages_count=$result->num_rows;
+    $data += ['web_messages_count' => $messages_count];
+    $messages=[];
+    while ($row=$result->fetch_assoc()){
+        array_push($messages,$row);
+    }
+    $data += ['web_messages' => $messages];
     Response::json(200, "API Successfully Called", $data);
     exit(0);
 }
@@ -110,7 +118,9 @@ if ($_POST['function'] == "add_link") {
         Response::json(503, "Asset Is Existed", $arr);
         exit(0);
     }
-    $conn->query("INSERT INTO links (LinkTitle,Link)VALUES('" . $_POST['link_title'] . "','" . $_POST['link'] . "')");
+    $stmt=$conn->prepare("INSERT INTO links (LinkTitle,Link)VALUES(?,?)");
+    $stmt->bind_param("ss", $_POST['link_title'],$_POST['link']);
+    $stmt->execute();
     $arr = ["isSucceed" => "true"];
     Response::json(200, "API successfully called", $arr);
     exit(0);
@@ -123,11 +133,14 @@ if ($_POST['function'] == "update_link") {
         Response::json(401, "User Not Login", $arr);
         exit(0);
     }
-    $conn->query("UPDATE links SET LinkTitle='" . $_POST['link_title'] . "' , Link='" . $_POST['link'] . "' WHERE LinkTitle='" . $_POST['link_title_old'] . "'");
+    $stmt=$conn->prepare("UPDATE links SET LinkTitle=? , Link=? WHERE LinkTitle=?");
+    $stmt->bind_param("sss", $_POST['link_title'],$_POST['link'],$_POST['link_title_old']);
+    $stmt->execute();
     $arr = ["isSucceed" => 'true'];
     Response::json(200, "API successfully called", $arr);
     exit(0);
 }
+
 
 if ($_POST['function'] == "delete_link") {
     if (!check_login($conn)) {
@@ -395,6 +408,24 @@ if ($_POST['function']=='update_username'){
         exit(0);
     }
     $conn->query("UPDATE user SET UserName='".$_POST['username']."' WHERE Token='" . $_COOKIE['Token'] . "' AND TokenID='" . $_COOKIE['TokenID'] . "'");
+    $arr = ["isSucceed" => "true"];
+    Response::json(200, "API successfully called", $arr);
+    exit(0);
+}
+
+if ($_POST['function']==='update_title'){
+    $stmt=$conn->prepare("UPDATE web_message SET WebContent=? WHERE WebTitle='title'");
+    $stmt->bind_param("s", $_POST['title']);
+    $stmt->execute();
+    $arr = ["isSucceed" => "true"];
+    Response::json(200, "API successfully called", $arr);
+    exit(0);
+}
+
+if ($_POST['function']==='update_footer'){
+    $stmt=$conn->prepare("UPDATE web_message SET WebContent=? WHERE WebTitle='footer'");
+    $stmt->bind_param("s", $_POST['title']);
+    $stmt->execute();
     $arr = ["isSucceed" => "true"];
     Response::json(200, "API successfully called", $arr);
     exit(0);

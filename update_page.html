@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Decisive's Blog - 编辑文章</title>
+    <title id="page_title">{{page_title}}</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/vs.min.css"/>
@@ -28,7 +28,7 @@
     <div class="mdui-toolbar mdui-color-theme">
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
               mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
-        <a href="/" class="mdui-typo-headline mdui-hidden-xs">Decisive 's Blog</a>
+        <a href="/" class="mdui-typo-headline mdui-hidden-xs" id="site_name">{{site_name}}</a>
         <div class="mdui-toolbar-spacer"></div>
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-theme'}"
               mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
@@ -419,6 +419,15 @@
         <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>ok</button>
     </div>
 </div>
+<div class="doc-footer-nav mdui-color-theme">
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="rights" id="footer" v-html="footer">
+                {{footer}}
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 
@@ -471,6 +480,27 @@
         }
     });
 
+    const page_title = new Vue({
+        el: '#page_title',
+        data: {
+            page_title: '编辑'
+        }
+    });
+
+    const site_name = new Vue({
+        el: '#site_name',
+        data: {
+            site_name: 'Blog'
+        }
+    });
+
+    const footer = new Vue({
+        el: '#footer',
+        data: {
+            footer: 'Powered By MDUI-Blog Designed By UtopiaXC'
+        }
+    });
+
 
     $.ajax({
         url: "api.php",
@@ -480,6 +510,15 @@
             'function': 'draw_slider',
         },
         success: function (result) {
+            for (i=0;i<result.data.web_messages_count;i++){
+                if (result.data.web_messages[i].WebTitle==='title'){
+                    page_title.$data.page_title=result.data.web_messages[i].WebContent+' - 编辑文章';
+                    site_name.$data.site_name=result.data.web_messages[i].WebContent;
+                }
+                if (result.data.web_messages[i].WebTitle==='footer'){
+                    footer.$data.footer=result.data.web_messages[i].WebContent;
+                }
+            }
             for (i = 0; i < result.data.count_links; i++) {
                 links.$data.links += '<a target="_blank" href="' + result.data.links[i].Link + '" class="mdui-list-item mdui-ripple ">' + result.data.links[i].LinkTitle + '</a>';
             }

@@ -232,7 +232,30 @@ script + .doc-article-title {
  */
 /* 底部翻页 */
 .doc-footer-nav {
-    height: 96px;
+    height: 65px;
+}
+
+.rights {
+    text-align: center;
+    padding-top: 20px;
+    font-size: medium;
+}
+
+.rights a:link {
+    color: #dbdbdb;
+    text-decoration:none;
+}
+.rights a:visited {
+    color: #dbdbdb;
+    text-decoration:none;
+}
+.rights a:hover {
+    color: #ffd4f9;
+    text-decoration:underline;
+}
+.rights a:active {
+    color: #eeb5ff;
+    text-decoration:underline;
 }
 
 .doc-footer-nav-left,

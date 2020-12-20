@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Decisive's Blog - 后台管理</title>
+    <title id="page_title">{{page_title}}</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/vs.min.css"/>
@@ -16,7 +16,7 @@
     <div class="mdui-toolbar mdui-color-theme">
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
               mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
-        <a href="/" class="mdui-typo-headline mdui-hidden-xs">Decisive 's Blog</a>
+        <a href="/" class="mdui-typo-headline mdui-hidden-xs" id="site_name">{{ site_name }}</a>
         <div class="mdui-toolbar-spacer"></div>
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-theme'}"
               mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
@@ -224,7 +224,67 @@
             </div>
         </div>
     </div>
-    <br>
+    <br><br>
+    <div class="mdui-row">
+        <div class="mdui-col-md-6 mdui-col-offset-md-3">
+            <h2 class="doc-title mdui-text-color-theme">网站个性化</h2>
+            <div class="mdui-panel" id="web_message" mdui-panel>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">网站标题</div>
+                        <div class="mdui-panel-item-summary">网站标题会显示在web标签和页面标题中</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="web_title" class="mdui-textfield-input" type="text" placeholder="网站标题"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_web_title" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="update_title();" class="mdui-btn mdui-ripple">修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">页脚</div>
+                        <div class="mdui-panel-item-summary">页脚显示在网站底部，包含版权信息等</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-textfield">
+                            <label>
+                                <input id="web_footer" class="mdui-textfield-input" type="text" placeholder="页脚"/>
+                            </label>
+                        </div>
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_web_footer" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="update_footer();" class="mdui-btn mdui-ripple">修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdui-panel-item">
+                    <div class="mdui-panel-item-header">
+                        <div class="mdui-panel-item-title">图标</div>
+                        <div class="mdui-panel-item-summary">图标显示在浏览器标签中</div>
+                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="mdui-panel-item-body">
+                        <div class="mdui-panel-item-actions">
+                            <button id="button_cancel_web_logo" class="mdui-btn mdui-ripple" mdui-panel-item-close>取消
+                            </button>
+                            <button onclick="update_logo();" class="mdui-btn mdui-ripple">上传</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
     <div class="mdui-row">
         <div class="mdui-col-md-6 mdui-col-offset-md-3">
             <h2 class="doc-title mdui-text-color-theme">封面图源</h2>
@@ -545,6 +605,15 @@
         <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>ok</button>
     </div>
 </div>
+<div class="doc-footer-nav mdui-color-theme">
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="rights" id="footer" v-html="footer">
+                {{footer}}
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 
@@ -590,6 +659,27 @@
         }
     });
 
+    const page_title = new Vue({
+        el: '#page_title',
+        data: {
+            page_title: '后台'
+        }
+    });
+
+    const site_name = new Vue({
+        el: '#site_name',
+        data: {
+            site_name: 'Blog'
+        }
+    });
+
+    const footer = new Vue({
+        el: '#footer',
+        data: {
+            footer: 'Powered By MDUI-Blog Designed By UtopiaXC'
+        }
+    });
+
     $.ajax({
         url: "api.php",
         type: "post",
@@ -598,6 +688,17 @@
             'function': 'draw_slider',
         },
         success: function (result) {
+            for (i=0;i<result.data.web_messages_count;i++){
+                if (result.data.web_messages[i].WebTitle==='title'){
+                    page_title.$data.page_title=result.data.web_messages[i].WebContent+' - 后台';
+                    site_name.$data.site_name=result.data.web_messages[i].WebContent;
+                    $('#web_title').val(result.data.web_messages[i].WebContent)
+                }
+                if (result.data.web_messages[i].WebTitle==='footer'){
+                    footer.$data.footer=result.data.web_messages[i].WebContent;
+                    $('#web_footer').val(result.data.web_messages[i].WebContent)
+                }
+            }
             for (i = 0; i < result.data.count_links; i++) {
                 links.$data.links += '<a target="_blank" href="' + result.data.links[i].Link + '" class="mdui-list-item mdui-ripple ">' + result.data.links[i].LinkTitle + '</a>';
             }
@@ -1089,6 +1190,7 @@
             })
         });
     }
+
     function update_password(){
         mdui.confirm("确认修改？","提醒",function (){
             let password_old=$('#password_old').val()
@@ -1164,6 +1266,66 @@
                 }
             })
         });
+    }
+
+    function update_title(){
+        let title=$('#web_title')
+        if (title.val()===''){
+            mdui.alert("请输入内容","提醒")
+            return
+        }
+        mdui.confirm("确定修改？","提醒",function (){
+            $.ajax({
+                url:"api.php",
+                type:'post',
+                dataType:'json',
+                data:{
+                    'function':'update_title',
+                    'title':title.val()
+                },
+                success:function (result){
+                    if(result.data.isSucceed==='true'){
+                        mdui.alert("修改成功","提醒")
+                        $('#button_cancel_web_title').click()
+                    }else{
+                        mdui.alert("未知错误","警告")
+                    }
+                },
+                error:function (){
+                    mdui.alert("未知错误","警告")
+                }
+            })
+        })
+    }
+
+    function update_footer(){
+        let footer=$('#web_footer')
+        if (footer.val()===''){
+            mdui.alert("请输入内容","提醒")
+            return
+        }
+        mdui.confirm("确定修改？","提醒",function (){
+            $.ajax({
+                url:"api.php",
+                type:'post',
+                dataType:'json',
+                data:{
+                    'function':'update_footer',
+                    'title':footer.val()
+                },
+                success:function (result){
+                    if(result.data.isSucceed==='true'){
+                        mdui.alert("修改成功","提醒")
+                        $('#button_cancel_web_footer').click()
+                    }else{
+                        mdui.alert("未知错误","警告")
+                    }
+                },
+                error:function (){
+                    mdui.alert("未知错误","警告")
+                }
+            })
+        })
     }
 </script>
 </html>

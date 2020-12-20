@@ -154,24 +154,7 @@ $(function () {
     }
 })(jQuery);
 
-function add_card(father, img, title, description, time, index, PID) {
-    father.append('<div class="mdui-card mdui-hoverable" style="margin-top: 30px">\n' +
-        '                    <div class="mdui-card-media">\n' +
-        '                        <img src="' + img + '" alt=""/>\n' +
-        '                        <div class="mdui-card-media-covered">\n' +
-        '                            <div class="mdui-card-primary">\n' +
-        '                                <div class="mdui-card-primary-title">' + title + '</div>\n' +
-        '                                <div class="mdui-card-primary-subtitle">' + description + '</div>\n' +
-        '                                <div class="mdui-card-primary-subtitle">' + time + '</div>\n' +
-        '                            </div>\n' +
-        '                            <div class="mdui-card-actions" style="text-align: right">\n' +
-        '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page_index.html?index=' + index + '\'">访问目录</button>\n' +
-        '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page.html?PID=' + PID + '\'">阅读全文</button>\n' +
-        '                            </div>\n' +
-        '                        </div>\n' +
-        '                    </div>\n' +
-        '                </div>');
-}
+
 
 if (getCookie("layout")!=='undefined'){
     $('body').addClass(('mdui-theme-layout-'+getCookie("layout"))); //在原来的后面加这个

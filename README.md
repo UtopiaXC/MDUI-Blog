@@ -136,6 +136,6 @@ vim /www/wwwroot/xxx.xxx.xxx/config.php
 2. 标签云
 3. 关于界面
 4. 文章的内容的叠层样式表
-5. footer版权页脚
+5. ~~footer版权页脚与自定义标题~~（已完成）
 6. 评论系统
 7. 审核系统

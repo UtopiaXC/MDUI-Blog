@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Decisive's Blog - 搜索</title>
+    <title id="page_title">{{page_title}}</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/vs.min.css"/>
@@ -17,7 +17,7 @@
     <div class="mdui-toolbar mdui-color-theme">
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"
               mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
-        <a href="/" class="mdui-typo-headline mdui-hidden-xs">Decisive 's Blog</a>
+        <a href="/" class="mdui-typo-headline mdui-hidden-xs" id="site_name">{{site_name}}</a>
         <div class="mdui-textfield mdui-textfield-expandable">
             <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></button>
             <label style="display: none" for="search"></label>
@@ -387,7 +387,15 @@
         <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>ok</button>
     </div>
 </div>
-
+<div class="doc-footer-nav mdui-color-theme">
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="rights" id="footer" v-html="footer">
+                {{footer}}
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 
@@ -399,6 +407,7 @@
 <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
 <script src="js/contents.js"></script>
 <script>
+    let pic_load_count=0;
     const links = new Vue({
         el: '#links',
         data: {
@@ -413,6 +422,27 @@
         }
     });
 
+    const page_title = new Vue({
+        el: '#page_title',
+        data: {
+            page_title: '搜索'
+        }
+    });
+
+    const site_name = new Vue({
+        el: '#site_name',
+        data: {
+            site_name: 'Blog'
+        }
+    });
+
+    const footer = new Vue({
+        el: '#footer',
+        data: {
+            footer: 'Powered By MDUI-Blog Designed By UtopiaXC'
+        }
+    });
+
     $.ajax({
         url: "api.php",
         type: "post",
@@ -421,6 +451,15 @@
             'function': 'draw_slider',
         },
         success: function (result) {
+            for (i=0;i<result.data.web_messages_count;i++){
+                if (result.data.web_messages[i].WebTitle==='title'){
+                    page_title.$data.page_title=result.data.web_messages[i].WebContent+' - 搜索';
+                    site_name.$data.site_name=result.data.web_messages[i].WebContent;
+                }
+                if (result.data.web_messages[i].WebTitle==='footer'){
+                    footer.$data.footer=result.data.web_messages[i].WebContent;
+                }
+            }
             for (i = 0; i < result.data.count_links; i++) {
                 links.$data.links += '<a target="_blank" href="' + result.data.links[i].Link + '" class="mdui-list-item mdui-ripple ">' + result.data.links[i].LinkTitle + '</a>';
             }
@@ -444,7 +483,9 @@
         success:function (result){
             if (result.data.count===0){
                 mdui.alert("没有任何结果","提醒")
+                $('#drawing_progress').hide()
             }
+            pic_load_count=result.data.count;
             for (i=0;i<result.data.count;i++){
                 add_card($(
                     "#card_content"),
@@ -455,11 +496,34 @@
                     result.data.pages[i].index_name,
                     result.data.pages[i].pid)
             }
-            $('#drawing_progress').hide()
         },
         error:function (){
-            $('#drawing_progress').hide()
         }
     })
+    function add_card(father, img, title, description, time, index, PID,i,progress) {
+        father.append('<div class="mdui-card mdui-hoverable" style="margin-top: 30px">\n' +
+            '                    <div class="mdui-card-media">\n' +
+            '                        <img onload="check_pic_onload()" src="' + img + '" alt=""/>\n' +
+            '                        <div class="mdui-card-media-covered">\n' +
+            '                            <div class="mdui-card-primary">\n' +
+            '                                <div class="mdui-card-primary-title">' + title + '</div>\n' +
+            '                                <div class="mdui-card-primary-subtitle">' + description + '</div>\n' +
+            '                                <div class="mdui-card-primary-subtitle">' + time + '</div>\n' +
+            '                            </div>\n' +
+            '                            <div class="mdui-card-actions" style="text-align: right">\n' +
+            '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page_index.html?index=' + index + '\'">访问目录</button>\n' +
+            '                                <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="window.location.href=\'page.html?PID=' + PID + '\'">阅读全文</button>\n' +
+            '                            </div>\n' +
+            '                        </div>\n' +
+            '                    </div>\n' +
+            '                </div>');
+    }
+    let checked_pic_count=0;
+    function check_pic_onload(){
+        checked_pic_count++;
+        if (checked_pic_count===pic_load_count){
+            $('#drawing_progress').hide()
+        }
+    }
 </script>
 </html>

@@ -142,6 +142,23 @@ CREATE TABLE `user`  (
 INSERT INTO `user` VALUES (1, 'admin', 'e47af108b04c61795c5e522f381066e8', NULL, NULL);
 
 -- ----------------------------
+-- Table structure for web_message
+-- ----------------------------
+DROP TABLE IF EXISTS `web_message`;
+CREATE TABLE `web_message`  (
+                                `ID` int(11) NOT NULL AUTO_INCREMENT,
+                                `Title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                `Content` varchar(2550) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+                                PRIMARY KEY (`ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of web_message
+-- ----------------------------
+INSERT INTO `web_message` VALUES (1, 'title', 'UtopiaXC\'s Blog');
+INSERT INTO `web_message` VALUES (2, 'footer', 'Powered By <a href=\'https://github.com/UtopiaXC/MDUI-Blog/\' target=\'_blank\'>MDUI-Blog</a> | Designed By <a href=\'https://www.utopiaxc.cn/\' target=\'_blank\'>UtopiaXC</a>');
+
+-- ----------------------------
 -- Triggers structure for table pages
 -- ----------------------------
 DROP TRIGGER IF EXISTS `set_page_submit_time`;
