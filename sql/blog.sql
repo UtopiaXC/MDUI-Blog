@@ -150,7 +150,7 @@ CREATE TABLE `web_message`  (
 -- ----------------------------
 -- Records of web_message
 -- ----------------------------
-INSERT INTO `web_message` VALUES (1, 'title', 'UtopiaXC\'s Blog 镜像二站');
+INSERT INTO `web_message` VALUES (1, 'title', 'MDUI-Blog');
 INSERT INTO `web_message` VALUES (2, 'footer', 'Powered By <a href=\'https://github.com/UtopiaXC/MDUI-Blog/\' target=\'_blank\'>MDUI-Blog</a> | Designed By <a href=\'https://www.utopiaxc.cn/\' target=\'_blank\'>UtopiaXC</a>');
 
 
