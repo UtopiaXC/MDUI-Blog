@@ -235,6 +235,9 @@ script + .doc-article-title {
     height: 65px;
 }
 
+
+
+
 .rights {
     text-align: center;
     padding-top: 20px;
@@ -242,11 +245,11 @@ script + .doc-article-title {
 }
 
 .rights a:link {
-    color: #dbdbdb;
+    color: #9c9c9c;
     text-decoration:none;
 }
 .rights a:visited {
-    color: #dbdbdb;
+    color: #868686;
     text-decoration:none;
 }
 .rights a:hover {

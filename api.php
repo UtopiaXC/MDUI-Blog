@@ -431,6 +431,18 @@ if ($_POST['function']==='update_footer'){
     exit(0);
 }
 
+if ($_POST['function']==='tags_cloud'){
+    $result=$conn->query("SELECT Tag FROM tags GROUP BY Tag");
+    $count=$result->num_rows;
+    $tags=[];
+    while($row=$result->fetch_assoc()){
+        array_push($tags,$row);
+    }
+    $arr = ['count'=>$count,'tags'=>$tags];
+    Response::json(200, "API successfully called", $arr);
+    exit(0);
+}
+
 function check_login($conn): bool
 {
     if (@!$_COOKIE['TokenID'] && !@$_COOKIE['Token']) {

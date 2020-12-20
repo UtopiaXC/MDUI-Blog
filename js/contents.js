@@ -190,3 +190,4 @@ $("#search").keypress(function (e) {
         window.location.href="search.html?key="+$('#search').val()
     }
 })
+
