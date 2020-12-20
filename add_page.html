@@ -521,12 +521,14 @@
             for (i = 0; i < result.data.count_links; i++) {
                 links.$data.links += '<a target="_blank" href="' + result.data.links[i].Link + '" class="mdui-list-item mdui-ripple ">' + result.data.links[i].LinkTitle + '</a>';
             }
+            let index_option = new mdui.Select('#index_option');
             for (i = 0; i < result.data.count_indexes; i++) {
                 indexes.$data.indexes += '<a href="page_index.html?index=' + result.data.indexes[i].IndexName + '" class="mdui-list-item mdui-ripple ">' + result.data.indexes[i].IndexName + '</a>';
-                let index_option = new mdui.Select('#index_option');
+
                 $("#index_option").append('<option value="' + result.data.indexes[i].IndexName + '">' + result.data.indexes[i].IndexName + '</option>');
-                index_option.handleUpdate()
+
             }
+            index_option.handleUpdate()
             $("#drawing_progress").hide()
         },
         error: function () {

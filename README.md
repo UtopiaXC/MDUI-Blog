@@ -60,7 +60,7 @@ chmod -R 777 /www/wwwroot/xxx.xxx.xxx
 
 ### 部署数据库
 
-1. 打开mysql
+1. 打开mysql（一定要使用root账户，不然无法创建触发器）
 
 ```shell
 mysql -u username -p
@@ -129,7 +129,7 @@ vim /www/wwwroot/xxx.xxx.xxx/config.php
 
 ## 相关问题
 
-由于本项目仍在开发，目前以下功能未完成（心情好就写，反正也没人用）
+### 由于本项目仍在开发，目前以下功能未完成（心情好就写，反正也没人用）
 
 1. 归档
 2. 标签云
@@ -138,3 +138,6 @@ vim /www/wwwroot/xxx.xxx.xxx/config.php
 5. ~~footer版权页脚与自定义标题~~（已完成）
 6. 评论系统
 7. 审核系统
+
+### BUGS
+1. 当无文章时，首次进入主页可能会无限返回（MDUI框架对话框的问题），如果始终无法进入可以先访问xxx.xxx.xxx/admin.html添加文章
