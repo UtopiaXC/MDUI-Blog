@@ -131,8 +131,8 @@ vim /www/wwwroot/xxx.xxx.xxx/config.php
 
 ### 由于本项目仍在开发，目前以下功能未完成（心情好就写，反正也没人用）
 
-1. 归档
-2. 标签云
+1. ~~归档~~（已完成）
+2. ~~标签云~~（已完成）
 3. 关于界面
 4. 文章的内容的叠层样式表
 5. ~~footer版权页脚与自定义标题~~（已完成）
@@ -141,3 +141,4 @@ vim /www/wwwroot/xxx.xxx.xxx/config.php
 
 ### BUGS
 1. 当无文章时，首次进入主页可能会无限返回（MDUI框架对话框的问题），如果始终无法进入可以先访问xxx.xxx.xxx/admin.html添加文章
+2. 切换图标API还没写，如果想换ico图标的话去images文件夹替换
