@@ -427,7 +427,7 @@
     const page_title = new Vue({
         el: '#page_title',
         data: {
-            page_title: '目录：'+$.getUrlParam("index")
+            page_title: '标签云'
         }
     });
 
@@ -455,7 +455,7 @@
         success: function (result) {
             for (i=0;i<result.data.web_messages_count;i++){
                 if (result.data.web_messages[i].WebTitle==='title'){
-                    page_title.$data.page_title=result.data.web_messages[i].WebContent+' - 目录：'+$.getUrlParam("index");
+                    page_title.$data.page_title=result.data.web_messages[i].WebContent+' - 标签云';
                     site_name.$data.site_name=result.data.web_messages[i].WebContent;
                 }
                 if (result.data.web_messages[i].WebTitle==='footer'){

@@ -443,6 +443,33 @@ if ($_POST['function']==='tags_cloud'){
     exit(0);
 }
 
+if ($_POST['function']=="draw_tag_page"){
+    $result=$conn->query("SELECT pages.pid, pages.title, pages.index_name, pages.description, pages.latestsubmit FROM pages,tags WHERE tags.Tag='".$_POST['tag']."' AND pages.PID=tags.PID ORDER BY PID DESC LIMIT 10");
+    $count=$result->num_rows;
+    $pages=[];
+    while ($row=$result->fetch_assoc()){
+        $pics=$conn->query("SELECT PicLink FROM pictures ORDER BY RAND() LIMIT 1");
+        $pic=$pics->fetch_assoc();
+        $row+=['pic'=>$pic['PicLink']];
+        array_push($pages,$row);
+    }
+    $data=['count'=>$count,'pages'=>$pages];
+    Response::json(200, "API successfully called", $data);
+    exit(0);
+}
+
+if ($_POST['function']=="draw_archive_page"){
+    $result=$conn->query("SELECT pid, title, latestsubmit FROM pages ORDER BY LatestSubmit DESC");
+    $count=$result->num_rows;
+    $pages=[];
+    while ($row=$result->fetch_assoc()){
+        array_push($pages,$row);
+    }
+    $data=['count'=>$count,'pages'=>$pages];
+    Response::json(200, "API successfully called", $data);
+    exit(0);
+}
+
 function check_login($conn): bool
 {
     if (@!$_COOKIE['TokenID'] && !@$_COOKIE['Token']) {
