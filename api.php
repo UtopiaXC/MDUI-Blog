@@ -47,16 +47,16 @@ if ($_POST['function'] == "draw_slider") {
     exit(0);
 }
 
-if ($_POST['function'] == "admin_pic") {
-    $result = $conn->query("SELECT PID, PicTitle, PicLink FROM pictures ORDER BY PID");
-    $count = $result->num_rows;
-    $pics = [];
-    while ($row = $result->fetch_assoc()) {
-        array_push($pics, $row);
+if ($_POST['function'] == 'login_check') {
+    if (check_login($conn)) {
+        $arr = ["isSucceed" => "true"];
+        Response::json(200, "API successfully called", $arr);
+        exit(0);
+    } else {
+        $arr = ["isSucceed" => "false"];
+        Response::json(401, "User Not Login", $arr);
+        exit(0);
     }
-    $data = ['pic' => $pics,'count'=>$count];
-    Response::json(200, "API Successfully Called", $data);
-    exit(0);
 }
 
 if ($_POST['function'] == "login") {
@@ -94,16 +94,16 @@ if (@$_POST['function'] == "logout") {
     exit(0);
 }
 
-if ($_POST['function'] == 'login_check') {
-    if (check_login($conn)) {
-        $arr = ["isSucceed" => "true"];
-        Response::json(200, "API successfully called", $arr);
-        exit(0);
-    } else {
-        $arr = ["isSucceed" => "false"];
-        Response::json(401, "User Not Login", $arr);
-        exit(0);
+if ($_POST['function'] == "admin_pic") {
+    $result = $conn->query("SELECT PID, PicTitle, PicLink FROM pictures ORDER BY PID");
+    $count = $result->num_rows;
+    $pics = [];
+    while ($row = $result->fetch_assoc()) {
+        array_push($pics, $row);
     }
+    $data = ['pic' => $pics,'count'=>$count];
+    Response::json(200, "API Successfully Called", $data);
+    exit(0);
 }
 
 if ($_POST['function'] == "add_link") {
@@ -124,7 +124,6 @@ if ($_POST['function'] == "add_link") {
     $arr = ["isSucceed" => "true"];
     Response::json(200, "API successfully called", $arr);
     exit(0);
-
 }
 
 if ($_POST['function'] == "update_link") {

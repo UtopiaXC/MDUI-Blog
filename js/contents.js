@@ -31,9 +31,9 @@ $(function () {
     /**
      * 设置文档主题
      */
-    var DEFAULT_PRIMARY = 'indigo';
-    var DEFAULT_ACCENT = 'pink';
-    var DEFAULT_LAYOUT = 'auto';
+    var DEFAULT_PRIMARY = '';
+    var DEFAULT_ACCENT = '';
+    var DEFAULT_LAYOUT = '';
 
     // 设置 cookie
     var setCookie = function (key, value) {
